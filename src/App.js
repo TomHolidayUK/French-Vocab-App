@@ -13,6 +13,7 @@ class App extends React.Component {
       {/* <div className="background-image"></div> */}
         {/* <ParticlesBg type="circle" bg={true} /> */}
         <FrenchVocabularyGame/>
+        <div>Testing Heroku</div>
         <div className="fixed-bottom-right">Made by Tom Holiday</div>
       </div>
       // style={{ backgroundImage: `url(${FrenchFlag})` }}
