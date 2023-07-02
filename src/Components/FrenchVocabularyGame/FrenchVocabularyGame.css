@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+  }
+  
+.bordered-content {
+  border: 5px solid black;
+  padding: 10px;
+  margin: 0 auto;
+  /* max-width: 600px;  */
+  /* max-height: 100px; */
+}
+
+/* .All {
+  text-align: center;
+  display: flex;
+  align-items: center;
+} */

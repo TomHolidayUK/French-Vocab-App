@@ -1,0 +1,76 @@
+.App {
+  text-align: center;
+  position: relative;
+  /* display: flex;
+  align-items: center; */
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./Background/3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.fixed-bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-start
+}
+
+/* .fixed-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}  */
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
