@@ -13,9 +13,11 @@ class FrenchVocabularyGame extends Component {
       currentWordFrench: '',
       userInput: '',
       isCorrect: null,
+      selectedTypes: [],
       totalAttempts: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
+    //   customList: [],
       stage: 'no results' // show results or not
     };
   }
@@ -32,6 +34,26 @@ class FrenchVocabularyGame extends Component {
 // });
 // };
 
+createCustomList = (selectedTypes, totalAttempts) => {
+    // console.log(this.state.selectedTypes)
+    let customList = [];
+    if (this.state.selectedTypes === "verbs") {
+        customList = vocabulary.filter(checkVerbs);
+    }
+
+    function checkVerbs(word) {
+    return word.type === "verb";
+};
+// console.log("custom list", customList);
+
+    // if (vocabulary[this.state.totalAttempts].type === "verb") {
+    //     console.log("verb detected")
+    // } else if (vocabulary[this.state.totalAttempts].type === "noun") {
+    //     console.log("noun detected")
+    // }
+};
+
+// This selects the current words from the database by changing the current state to them 
 selectWord = (totalAttempts) => {
     const selectedWord = vocabulary[this.state.totalAttempts];
     this.setState({
@@ -40,6 +62,21 @@ selectWord = (totalAttempts) => {
         userInput: '',
         isCorrect: null
     });
+};
+
+handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    const { selectedTypes } = this.state;
+
+    if (checked) {
+        this.setState({
+        selectedTypes: [...selectedTypes, value]
+        });
+    } else {
+        this.setState({
+        selectedTypes: selectedTypes.filter((category) => category !== value)
+        });
+    }
     };
 
 // Method to handle user input
@@ -67,11 +104,13 @@ this.setState((prevState) => ({
 // Method to move to the next word
 nextWord = () => {
 this.selectWord();
+this.createCustomList();
 };
 
 // This renders a word to translate the moment that the app renders
 componentDidMount() {
 this.selectWord(); // Select a word when the component mounts 
+this.createCustomList();
 // this.setState({ totalAttempts: 0 })
 }
 
@@ -86,12 +125,51 @@ handleKeyPress = (event) => {
     }
 };
 
+
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers } = this.state;
+    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, selectedTypes } = this.state;
     return (
         <div className="All">
         <div className='pa2 pt9 tc'>
             <h1>French Vocabulary Game</h1>
+            <div id="wordCategory">
+        <h3>Select the types of words you want to learn:</h3>
+        <label>
+          <input type="checkbox" value="adjectives" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('adjectives')}/>
+          Adjectives
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="nouns"
+            onChange={this.handleCheckboxChange}
+            checked={selectedTypes.includes('nouns')}
+          />
+          Nouns
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="verbs"
+            onChange={this.handleCheckboxChange}
+            checked={selectedTypes.includes('verbs')}
+          />
+          Verbs
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="prepositions"
+            onChange={this.handleCheckboxChange}
+            checked={selectedTypes.includes('prepositions')}
+          />
+          Prepositions
+        </label>
+        <div>
+          Selected Types: {selectedTypes.join(', ')}
+        </div>
+      </div>
+
             {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />}
             <p>Translate the following: </p>
             <motion.p className="b f4" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
@@ -101,6 +179,13 @@ handleKeyPress = (event) => {
             onChange={this.handleUserInput} 
             placeholder='Type here...'
             onKeyPress={this.handleKeyPress}/>
+            <select id="wordCategory">
+                <option selected disabled>How many words?</option>
+                <option value="1000">1000</option>
+                <option value="2000">2000</option>
+                <option value="3000">3000</option>
+                <option value="4000">4000</option>
+            </select>
             {isCorrect !== null && (
             <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: {currentWordFrench}</p>}</div>
             )}

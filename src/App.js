@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import TextInput from './Components/TextInput/TextInput';
+import Filter from './Components/Filter/Filter';
 import pic from './Background/3.jpg';
 import ParticlesBg from "particles-bg";
 import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabularyGame';
@@ -9,14 +10,15 @@ import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabu
 class App extends React.Component {
   render () {
     return (
-      <div className='App' style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain", height:910, width:1365  }}>
+      <div className='App' style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}>
       {/* <div className="container"> */}
-      {/* <div className="background-image"></div> */}
+      <div className="background-image">
         {/* <ParticlesBg type="circle" bg={true} /> */}
         <FrenchVocabularyGame/>
+        <Filter type="verbs" />
         <div className="fixed-bottom-right">Made by Tom Holiday</div>
       </div>
-      // style={{ backgroundImage: `url(${FrenchFlag})` }}
+      </div>
     );
   }
 }
