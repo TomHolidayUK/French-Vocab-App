@@ -7,6 +7,8 @@ import ParticlesBg from "particles-bg";
 import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabularyGame';
 
 
+
+
 class App extends React.Component {
   render () {
     return (
@@ -14,8 +16,8 @@ class App extends React.Component {
       {/* <div className="container"> */}
       <div className="background-image">
         {/* <ParticlesBg type="circle" bg={true} /> */}
+        <Filter/>
         <FrenchVocabularyGame/>
-        <Filter type="verbs" />
         <div className="fixed-bottom-right">Made by Tom Holiday</div>
       </div>
       </div>
