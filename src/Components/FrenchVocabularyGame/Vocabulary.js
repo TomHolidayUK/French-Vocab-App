@@ -100,6 +100,30 @@ const vocabulary = [
       French: "aller",
       index: 15,
       type: "verbs"
+    },
+    {
+      English: "therefore",
+      French: "donc",
+      index: 16,
+      type: "adverbs"
+    },
+    {
+      English: "to think",
+      French: "penser",
+      index: 17,
+      type: "verbs"
+    },
+    {
+      English: "best/better",
+      French: "meilleur",
+      index: 18,
+      type: "adjectives"
+    },
+    {
+      English: "powerful",
+      French: "puissant",
+      index: 19,
+      type: "verbs"
     }
     
   ];

@@ -13,11 +13,9 @@ class FrenchVocabularyGame extends Component {
       currentWordFrench: '',
       userInput: '',
       isCorrect: null,
-      selectedTypes: [],
       totalAttempts: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
-    //   customList: [],
       stage: 'no results' // show results or not
     };
   }
@@ -37,13 +35,20 @@ class FrenchVocabularyGame extends Component {
 
 // This selects the current words from the database by changing the current state to them 
 selectWord = (totalAttempts) => {
-    const selectedWord = vocabulary[this.state.totalAttempts];
+    const { customList } = this.props;
+    // console.log('total vocab', vocabulary)
+    // const selectedWord = vocabulary[this.state.totalAttempts];
+    // const selectedWord = this.props.customList[this.state.totalAttempts];
+    if (customList && customList.length > this.state.totalAttempts) {
+        const selectedWord = customList[this.state.totalAttempts];
+        console.log('custom list in FrenchVocabularyGame.js 2', this.props.customList)
     this.setState({
         currentWordEnglish: selectedWord.English,
         currentWordFrench: selectedWord.French,
         userInput: '',
         isCorrect: null
     });
+}
 };
 
 
@@ -91,15 +96,18 @@ handleKeyPress = (event) => {
     }
 };
 
+restart = () => {
+    this.state.totalAttempts = 0;
+}
 
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, selectedTypes } = this.state;
+    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers} = this.state;
+    // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="All">
         <div className='pa2 pt9 tc'>
-            
-
-            {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />}
+            {/* {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />} */}
+            {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(this.props.customList.length)*100} />}
             <p>Translate the following: </p>
             <motion.p className="b f4" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
             <input 
@@ -108,13 +116,6 @@ handleKeyPress = (event) => {
             onChange={this.handleUserInput} 
             placeholder='Type here...'
             onKeyPress={this.handleKeyPress}/>
-            <select id="wordCategory">
-                <option selected disabled>How many words?</option>
-                <option value="1000">1000</option>
-                <option value="2000">2000</option>
-                <option value="3000">3000</option>
-                <option value="4000">4000</option>
-            </select>
             {isCorrect !== null && (
             <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: {currentWordFrench}</p>}</div>
             )}
@@ -122,6 +123,7 @@ handleKeyPress = (event) => {
         <div>
             <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
             <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
+            <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
         </div>
         <p>*Use the buttons or use the 'Enter' key*</p>
         <div className='container f4'>
@@ -133,6 +135,7 @@ handleKeyPress = (event) => {
                 {(totalAttempts > 0) && <div>Accuracy = {(correctAnswers/totalAttempts* 100).toFixed(2)}%</div>}
             </div>
         </div>
+
         {/* <p>**There are five accent marks in French, and each of them can significantly impact the way you pronounce French words. Therefore enter words correctly WITH ACCENTS**</p>
         <p>é – the acute accent (l'accent aigu)<br />à/è/ì/ò/ù – the grave accent (l'accent grave)<br />â/ê/î/ô/û – the circumflex (l'accent circonflexe)<br />ç – the cedilla (la cédille)<br />ë/ï/ü – the trema (l'accent tréma)</p>
         <b>Functions to add:<br />Sort order - don't have 2 words in a row<br />Have levels<br />Display statistics<br />Make spelling allowances especially for incorrect accents and capital letters<br />Style well with nice background<br />Add pictures<br />Animation when new word appears</b> */}
