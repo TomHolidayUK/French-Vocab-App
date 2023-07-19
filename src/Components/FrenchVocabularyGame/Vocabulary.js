@@ -123,6 +123,18 @@ const vocabulary = [
       English: "powerful",
       French: "puissant",
       index: 19,
+      type: "adjectives"
+    },
+    {
+      English: "to know",
+      French: "savoir",
+      index: 20,
+      type: "verbs"
+    },
+    {
+      English: "to be able to",
+      French: "pouvoir",
+      index: 21,
       type: "verbs"
     }
     
