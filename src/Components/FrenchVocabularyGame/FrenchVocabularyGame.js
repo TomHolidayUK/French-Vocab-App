@@ -16,7 +16,8 @@ class FrenchVocabularyGame extends Component {
       totalAttempts: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
-      stage: 'no results' // show results or not
+      stage: 'no results', // show results or not
+      difficultMode: false
     };
   }
 
@@ -48,7 +49,16 @@ this.setState({ userInput: event.target.value });
 // Method to check user answer
 checkAnswer = () => {
 const { userInput, currentWordFrench } = this.state;
-const isCorrect = userInput === currentWordFrench;
+
+// Case-insensitive and diacritical mark-insensitive comparison
+const removeDiacriticalMarks = (str) => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  };
+const isCorrect =
+removeDiacriticalMarks(userInput.toLowerCase()) === removeDiacriticalMarks(currentWordFrench.toLowerCase());
+// Normal
+// const isCorrect = userInput.toLowerCase() === currentWordFrench.toLowerCase();
+
 this.setState({ isCorrect });
 if (isCorrect === true ) {
     this.setState((prevState) => ({
@@ -88,6 +98,10 @@ handleKeyPress = (event) => {
     }
 };
 
+handleToggle = () => {
+    this.setState((prevState) => ({ difficultMode: !prevState.difficultMode }));
+  };
+
 restart = () => {
     const result = window.confirm("Are you sure you want to proceed? You will lose all your progress");
     if (result) {
@@ -104,8 +118,12 @@ restart = () => {
    
 }
 
+hint = () => {
+    console.log('give hint')
+}
+
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers} = this.state;
+    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode} = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="All">
@@ -117,10 +135,19 @@ restart = () => {
                 </div>
             </nav>
             <h1>French Vocabulary Game</h1>
+            <div className="toggle-container pb1 ph3">
+                <div>Easy Mode</div>
+                <div className="toggle-switch" onClick={this.handleToggle}>
+                    <input type="checkbox" checked={difficultMode} onChange={() => {}} />
+                    <div className={`slider ${difficultMode ? 'on' : 'off'}`} />
+                </div>
+                <div>Difficult Mode</div>
+            </div>
+            <div className="pb1">(In Difficult Mode you need to inlude all special charachters)</div>
             {/* {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />} */}
             {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(this.props.customList.length)*100} />}
-            <p>Translate the following: </p>
-            <motion.p className="b f4" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
+            <h5>Translate the following:</h5>
+            <motion.p className="b pb2 f3" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
             <input 
             className='f4 pa1 pv2 w-20 center' 
             type="text" value={userInput} 
@@ -135,6 +162,7 @@ restart = () => {
         {(totalAttempts !== (this.props.customList.length)) ?
         <div>
             <div>
+            <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
                 <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
                 <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
                 <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
