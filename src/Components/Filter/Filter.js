@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
-import Slider from 'react-slider';
 
 
 class Filter extends Component {

@@ -228,7 +228,7 @@ const vocabulary = [
   {English: 'my (feminine singular)', French: 'ma', index: 108, type: 'adjective', __rowNum__: 86},
   {English: 'always', French: 'toujours', index: 109, type: 'others', __rowNum__: 87},
   {English: 'the day', French: 'le jour', index: 110, type: 'noun', __rowNum__: 88},
-  {English: 'woman, wife', French: 'la femme', index: 111, type: 'noun', __rowNum__: 89},
+  {English: 'the woman, wife', French: 'la femme', index: 111, type: 'noun', __rowNum__: 89},
   {English: 'the weather', French: 'le temps', index: 112, type: 'noun', __rowNum__: 90},
   {English: 'now', French: 'maintenant', index: 113, type: 'others', __rowNum__: 91},
   {English: 'our (singular) ', French: 'notre', index: 114, type: 'adjective', __rowNum__: 92},

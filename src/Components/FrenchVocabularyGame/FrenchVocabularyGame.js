@@ -3,6 +3,7 @@ import './FrenchVocabularyGame.css';
 import vocabulary from './Vocabulary.js';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
+// import Reverso from reverso-api;
 
 
 class FrenchVocabularyGame extends Component {
@@ -17,7 +18,8 @@ class FrenchVocabularyGame extends Component {
       correctAnswers: 0,
       incorrectAnswers: 0,
       stage: 'no results', // show results or not
-      difficultMode: false
+      difficultMode: false,
+      hint: ''
     };
   }
 
@@ -35,7 +37,8 @@ selectWord = (totalAttempts) => {
         currentWordEnglish: selectedWord.English,
         currentWordFrench: selectedWord.French,
         userInput: '',
-        isCorrect: null
+        isCorrect: null,
+        hint: ''
     });
 }
 };
@@ -48,16 +51,18 @@ this.setState({ userInput: event.target.value });
 
 // Method to check user answer
 checkAnswer = () => {
-const { userInput, currentWordFrench } = this.state;
-
-// Case-insensitive and diacritical mark-insensitive comparison
-const removeDiacriticalMarks = (str) => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  };
-const isCorrect =
-removeDiacriticalMarks(userInput.toLowerCase()) === removeDiacriticalMarks(currentWordFrench.toLowerCase());
-// Normal
-// const isCorrect = userInput.toLowerCase() === currentWordFrench.toLowerCase();
+const { userInput, currentWordFrench, difficultMode } = this.state;
+let isCorrect;
+if (difficultMode === true) {
+    isCorrect = userInput.toLowerCase() === currentWordFrench.toLowerCase();
+} else if (difficultMode === false){
+    // Case-insensitive and diacritical mark-insensitive comparison
+    const removeDiacriticalMarks = (str) => {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      };
+    isCorrect =
+    removeDiacriticalMarks(userInput.toLowerCase()) === removeDiacriticalMarks(currentWordFrench.toLowerCase());
+}
 
 this.setState({ isCorrect });
 if (isCorrect === true ) {
@@ -66,11 +71,11 @@ if (isCorrect === true ) {
 } else if (isCorrect === false) {
     this.setState((prevState) => ({
         incorrectAnswers: prevState.incorrectAnswers + 1}));
-    // Now we want to ensure that words that are answered incorrectly are fed back to the user later    
-    const delayFactor = 0.25; // This defins how much later in the list the user will receive the word they answered incorrectly 
-    const indexToInsert = this.state.totalAttempts + Math.ceil(this.props.customList.length * delayFactor)
-    this.props.customList.splice(indexToInsert, 0, this.props.customList[this.state.totalAttempts])
-    }
+// Now we want to ensure that words that are answered incorrectly are fed back to the user later    
+const delayFactor = 0.25; // This defins how much later in the list the user will receive the word they answered incorrectly 
+const indexToInsert = this.state.totalAttempts + Math.ceil(this.props.customList.length * delayFactor)
+this.props.customList.splice(indexToInsert, 0, this.props.customList[this.state.totalAttempts])
+}
 this.setState((prevState) => ({
     totalAttempts: prevState.totalAttempts + 1
     }));
@@ -102,6 +107,27 @@ handleToggle = () => {
     this.setState((prevState) => ({ difficultMode: !prevState.difficultMode }));
   };
 
+handleClick = () => {
+console.log('Text clicked!');
+const Reverso = require('reverso-api')
+const reverso = new Reverso()   
+console.log('test')
+reverso.getContext(
+    'meet me half way',
+    'english',
+    'russian',
+    (err, response) => {
+        if (err) throw new Error(err.message)
+        console.log('context', response)
+    }
+)
+
+// reverso.getConjugation('aller', 'french', (err, response) => {
+//     if (err) throw new Error(err.message)
+//     console.log('conjugation', response)
+// })
+};
+
 restart = () => {
     const result = window.confirm("Are you sure you want to proceed? You will lose all your progress");
     if (result) {
@@ -119,23 +145,63 @@ restart = () => {
 }
 
 hint = () => {
-    console.log('give hint')
+    const firstLetter = this.state.currentWordFrench.charAt(0);
+    const lengthOfWord = this.state.currentWordFrench.length
+
+    function generateUnderscores(length) {
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          result += '_ ';
+        }
+        return result;
+      }
+      
+    const underscoreString = generateUnderscores(lengthOfWord - 1);
+
+    const finalHint = 'Hint: ' + firstLetter + ' ' + underscoreString
+    this.setState({ hint: finalHint})
+
 }
 
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode} = this.state;
+    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint} = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="All">
-        <div className='pa2 pt9 tc'>
+        <div className='pa1 pt9 tc'>
             <nav style={{display: 'flex ', justifyContent: 'flex-end'}}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 <p onClick={() => this.props.onRouteChange('setup')} className='f4 link dim black underline ph3 pointer'>Select Words</p>
                     <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
                 </div>
             </nav>
-            <h1>French Vocabulary Game</h1>
-            <div className="toggle-container pb1 ph3">
+            <h2>French Vocabulary Game</h2>
+            {/* {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />} */}
+            {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(this.props.customList.length)*100} />}
+            <h5>Translate the following:</h5>
+            <motion.p className="b pb1 f4" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
+            <h6>{this.state.hint}</h6>
+            <input 
+            className='f4 pa1 pv1 w-20 center' 
+            type="text" value={userInput} 
+            onChange={this.handleUserInput} 
+            placeholder='Type here...'
+            onKeyPress={this.handleKeyPress}/>
+            {isCorrect !== null && (
+            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b className="clickable-element" onClick={this.handleClick}>{currentWordFrench}</b></p>}</div>
+            )}
+        </div>
+
+        {(totalAttempts !== (this.props.customList.length)) ?
+        <div>
+            <div>
+                <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
+                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
+                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
+                <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
+            </div>
+            {/* <p>*Use the buttons or use the 'Enter' key*</p> */}
+            <div className="toggle-container pv2 ph3">
                 <div>Easy Mode</div>
                 <div className="toggle-switch" onClick={this.handleToggle}>
                     <input type="checkbox" checked={difficultMode} onChange={() => {}} />
@@ -143,31 +209,7 @@ hint = () => {
                 </div>
                 <div>Difficult Mode</div>
             </div>
-            <div className="pb1">(In Difficult Mode you need to inlude all special charachters)</div>
-            {/* {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />} */}
-            {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(this.props.customList.length)*100} />}
-            <h5>Translate the following:</h5>
-            <motion.p className="b pb2 f3" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
-            <input 
-            className='f4 pa1 pv2 w-20 center' 
-            type="text" value={userInput} 
-            onChange={this.handleUserInput} 
-            placeholder='Type here...'
-            onKeyPress={this.handleKeyPress}/>
-            {isCorrect !== null && (
-            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: {currentWordFrench}</p>}</div>
-            )}
-        </div>
-
-        {(totalAttempts !== (this.props.customList.length)) ?
-        <div>
-            <div>
-            <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
-                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
-                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
-                <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
-            </div>
-            <p>*Use the buttons or use the 'Enter' key*</p>
+            <div className="pb1">(In Difficult Mode you need to include all special charachters)</div>
             <div className='f4'>
                 <div className='bordered-content'>
                     <b>Your progress:</b>

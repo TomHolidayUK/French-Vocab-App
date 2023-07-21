@@ -70,4 +70,12 @@ input:checked + .slider:before {
   justify-content: center;
 }
 
+.clickable-element {
+  cursor: pointer;
+  text-decoration: none; /* Remove default underline */
+}
+
+.clickable-element:hover {
+  text-decoration: underline; /* Underline the text on hover */
+}
 
