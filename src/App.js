@@ -3,11 +3,11 @@ import React from 'react';
 import Filter from './Components/Filter/Filter';
 import SignIn from './Components/SignIn/SignIn';
 import Register from './Components/Register/Register';
-import pic from './Background/3.jpg';
+// import pic from './Background/1.jpg';
+// import pic2 from './Background/14.jpg';
+// import pic3 from './Background/4.jpg';
 import ParticlesBg from "particles-bg";
 import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabularyGame';
-
-
 
 
 class App extends React.Component {
@@ -64,9 +64,12 @@ class App extends React.Component {
   }
 
   render () {
+    const { route } = this.state;
     return (
-      <div className='App' style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}>
-      <div className="background-image">
+      <div className='App' 
+      // style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}
+      >
+      <div>
         {/* <ParticlesBg type="circle" bg={true} /> */}
         {/* {this.state.route === 'signin' && <h1>Sign In Page</h1>} */}
         {this.state.route === 'signin' && <SignIn onRouteChange={this.onRouteChange}/>}

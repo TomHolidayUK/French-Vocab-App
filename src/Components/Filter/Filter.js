@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
-
+import './Filter.css';
 
 class Filter extends Component {
   constructor(props) {
@@ -106,7 +106,7 @@ handleSelectChange = (event) => {
   render() {
     const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue } = this.state;
     return (
-      <div>
+      <div className="background-image2">
         <div id="wordCategory">
 
           <nav style={{display: 'flex', justifyContent: 'flex-end'}}>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Register.css';
 
 class Register extends Component {
 
@@ -9,7 +10,7 @@ class Register extends Component {
 
     render() {
         return(
-            <div>
+            <div className="background-image4">
                 <h3>Welcome to the best place to learn French Vocabulary</h3>
                 <h4>Sign in if you have been here before and if it's your first time, register an account with us!</h4>
                 <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">

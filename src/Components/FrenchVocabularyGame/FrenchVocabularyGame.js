@@ -19,10 +19,19 @@ class FrenchVocabularyGame extends Component {
       incorrectAnswers: 0,
       stage: 'no results', // show results or not
       difficultMode: false,
-      hint: ''
+      hint: '',
+      showPopup: false
     };
   }
 
+
+  handlePopupClick = () => {
+    this.setState({ showPopup: true });
+  };
+
+  handleCloseClick = () => {
+    this.setState({ showPopup: false });
+  };
 
 // This selects the current words from the database by changing the current state to them 
 selectWord = (totalAttempts) => {
@@ -164,10 +173,10 @@ hint = () => {
 }
 
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint} = this.state;
+    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup} = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
-        <div className="All">
+        <div className="background-image3">
         <div className='pa1 pt9 tc'>
             <nav style={{display: 'flex ', justifyContent: 'flex-end'}}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -202,21 +211,43 @@ hint = () => {
             </div>
             {/* <p>*Use the buttons or use the 'Enter' key*</p> */}
             <div className="toggle-container pv2 ph3">
-                <div>Easy Mode</div>
+                <b>Easy Mode</b>
                 <div className="toggle-switch" onClick={this.handleToggle}>
                     <input type="checkbox" checked={difficultMode} onChange={() => {}} />
                     <div className={`slider ${difficultMode ? 'on' : 'off'}`} />
                 </div>
-                <div>Difficult Mode</div>
+                <b>Difficult Mode</b>
             </div>
-            <div className="pb1">(In Difficult Mode you need to include all special charachters)</div>
+            <h6 className="pb1">(In Difficult Mode you need to include all special charachters, for info on how to type special charchters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
+
+            <div>
+                {showPopup && (
+                <div className="overlay">
+                    <div className="popup">
+                    <h2>French Special Charachters</h2>
+                    <p>
+                    é – the acute accent (l'accent aigu) <b>(Mac - Option/Alt + E, RELEASE, THEN E)</b><br />
+                    à/è/ì/ò/ù – the grave accent (l'accent grave) <b>(Mac = Option/Alt + `, RELEASE, THEN letter)</b><br />
+                    â/ê/î/ô/û – the circumflex (l'accent circonflexe) <b>(Mac = Option + I, RELEASE, THEN letter)</b><br />
+                    ç – the cedilla (la cédille) <b>(Mac = Option + C)</b><br />
+                    ë/ï/ü – the trema (l'accent tréma) <b>(Mac = Option + U, RELEASE, THEN letter)</b><br />
+                    œ -e dans l'o <b>(Mac = Option/Alt + Q)</b><br /><br />
+
+                    Windows are way behind on this and there are no keyboard shortcuts available on my machine. Therefore I recommend copying and paste'ing from the charchters above.<br />
+                    </p>
+                    <button onClick={this.handleCloseClick}>Close</button>
+                    </div>
+                </div>
+                )}
+            </div>
+
             <div className='f4'>
                 <div className='bordered-content'>
-                    <b>Your progress:</b>
-                    <div>Total Answered = {totalAttempts}</div>
-                    <div>Correct answers = {correctAnswers}</div>
-                    <div>Incorrect answers = {incorrectAnswers}</div>
-                    {(totalAttempts > 0) && <div>Accuracy = {(correctAnswers/totalAttempts* 100).toFixed(2)}%</div>}
+                    <h5><b>Your progress:</b></h5>
+                    <h6><b>Total Answered = {totalAttempts}</b></h6>
+                    <h6><b>Correct answers = {correctAnswers}</b></h6>
+                    <h6><b>Incorrect answers = {incorrectAnswers}</b></h6>
+                    {(totalAttempts > 0) && <h6><b>Accuracy = {(correctAnswers/totalAttempts* 100).toFixed(2)}%</b></h6>}
                 </div>
             </div>
         </div>
