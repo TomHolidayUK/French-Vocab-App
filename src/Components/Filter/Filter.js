@@ -43,16 +43,16 @@ createCustomList = () => {
     // console.log('selected types', selectedTypes);
     // Filter the words to only include the types that the user wants (filter 1)
     // const filteredData1 = this.state.parsedData.filter(item => selectedTypes.includes(item.type));
-    console.log(selectedTypes)
+    // console.log(selectedTypes)
     const filteredData1 = vocabulary.filter(item => selectedTypes.includes(item.type));
-    console.log('filteredData1', filteredData1);
+    // console.log('filteredData1', filteredData1);
     // Filter the words to only be the length that the user wants (filter 2)
     const filteredData2 = filteredData1.slice(0, selectedNumberOfWords);
-    console.log('filteredData2', filteredData2);
+    // console.log('filteredData2', filteredData2);
     
     // Now randomise the words (filter 3)
     const filteredData3 = this.shuffleArray(filteredData2);
-    console.log('filteredData3', filteredData3);
+    // console.log('filteredData3', filteredData3);
     // filteredData3 is now the user-customised and randomised list 
     if (filteredData3.length > 0) {
       const { onUpdateState } = this.props;
@@ -105,6 +105,7 @@ handleSelectChange = (event) => {
 
   render() {
     const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue } = this.state;
+    const { name } = this.props;
     return (
       <div className="background-image2">
         <div id="wordCategory">
@@ -113,8 +114,7 @@ handleSelectChange = (event) => {
             <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
           </nav>
           <h1>French Vocabulary Game</h1>
-          <h5>Choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!</h5>
-
+          <h5>{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
           <div className="pb3 pt2">
           <h5>How many words do you want to learn?</h5>
             <select

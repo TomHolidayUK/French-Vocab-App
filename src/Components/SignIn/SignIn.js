@@ -1,77 +1,148 @@
 import React, { Component } from 'react';
+import { motion } from "framer-motion";
 import './SignIn.css';
+import videoBg from '../../Assets/video3.mp4'
 
 class SignIn extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            signInEmail: '',
+            signInPassword: '',
+            passwordState: ''
+        }
+    }
 
-    onSubmitSignIn = () => {
-      // this.props.loadUser(user)
-      this.props.onRouteChange('setup');
+    // onSubmitSignIn = () => {
+    //   // this.props.loadUser(user)
+    //   this.props.onRouteChange('setup');
+    // };
+
+    // onSubmitRegisterNow = () => {
+    //     // this.props.loadUser(user)
+    //     this.props.onRouteChange('register');
+    //   };
+
+    // Method to handle the user pressing 'enter'
+    handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+        this.onSubmitSignIn()};
     };
 
-    onSubmitRegisterNow = () => {
-        // this.props.loadUser(user)
-        this.props.onRouteChange('register');
-      };
+
+    onEmailChange = (event) => {
+        this.setState({signInEmail: event.target.value})
+    }
+
+    onPasswordChange = (event) => {
+        this.setState({signInPassword: event.target.value})
+    }
+    
+    onSubmitSignIn = () => {
+        fetch('http://localhost:3000/signin', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: this.state.signInEmail,
+                password: this.state.signInPassword
+            })
+        })
+        .then(response => response.json())
+        .then(user => {
+            if(user.id) { 
+            // if(user) {
+            // if(user === 'success') {
+                // Does the user exist? Did we receive a user with a property of id?
+                this.props.loadUser(user)
+                this.props.onRouteChange('setup');
+                this.setState({passwordState: true})
+            }
+            else {
+                // If you get the password incorrect
+                this.setState({passwordState: false})
+            }
+        })
+    }
+
+
 
     render() {
         return(
-            <div className="background-image">
-                <h3>Welcome to the best place to learn French Vocabulary</h3>
-                <h4>Sign in if you have been here before and if it's your first time, register an account with us!</h4>
-                <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-                    <main className="pa4 black-80">
-                        <div className="measure">
-                            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                                <legend className="f2 fw4 ph0 mh0">Sign In</legend>
-                                {/* <div className="mt3">
-                                    <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+            // <div className="background-image">
+            <div className='mainvideo'> 
+                {/* <div className="overlay"></div> */}
+                <video src={videoBg} autoPlay loop muted/>
+                {/* <div><h3 classname='top'>Welcome to the best place to learn French Vocabulary!</h3></div> */}
+                <div className="content">
+                    <h3 classname='top'>Welcome to the best place to learn French Vocabulary!</h3>
+                    {/* <h4>Sign in if you've been here before and if it's your first time, register an account with us!</h4> */}
+                    {/* <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center"> */}
+                    <article className="center-component br3 ba bg-opacity-75 dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center">
+                        {/* <div className="overlay"></div> */}
+                        <main className="pa4 black-80">
+                            <div className="measure">
+                                <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                                    <legend className="f2 fw4 white ph0 mh0">Sign In</legend>
+                                    {/* <div className="mt3">
+                                        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+                                        <input 
+                                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                        type="text" 
+                                        name="name"  
+                                        id="name" 
+                                        // onChange={this.onNameChange}
+                                        />
+                                    </div> */}
+                                    <div className="mt3">
+                                        <label className="db fw6 lh-copy white f5" htmlFor="email-address">Email</label>
+                                        <input 
+                                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                        type="email" 
+                                        name="email-address"  
+                                        id="email-address" 
+                                        onChange={this.onEmailChange}
+                                        onKeyPress={this.handleKeyPress}
+                                        />
+                                    </div>
+                                    <div className="mv3">
+                                        <label className="db fw6 lh-copy white f5" htmlFor="password">Password</label>
+                                        <input 
+                                        className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                        type="password" 
+                                        name="password"  
+                                        id="password" 
+                                        onChange={this.onPasswordChange}
+                                        onKeyPress={this.handleKeyPress}
+                                        />
+                                    </div>
+                                </fieldset>
+                                <div className="">
                                     <input 
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="text" 
-                                    name="name"  
-                                    id="name" 
-                                    // onChange={this.onNameChange}
-                                    />
-                                </div> */}
-                                <div className="mt3">
-                                    <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                                    <input 
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="email" 
-                                    name="email-address"  
-                                    id="email-address" 
-                                    // onChange={this.onEmailChange}
-                                    />
+                                    onClick={this.onSubmitSignIn}
+                                    // onClick={() => this.props.onRouteChange('setup')}
+                                    className="b ph3 pv2 white input-reset ba b--black bg-transparent grow pointer f5 dib" 
+                                    type="submit" 
+                                    value="Sign in" />
                                 </div>
-                                <div className="mv3">
-                                    <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                                {/* If Password is incorrect, show error message */}
+                                {(this.state.passwordState === false)? 
+                                    <motion.p className="b ph3" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>You have entered incorrect login details, please try again</motion.p>
+                                    :
+                                    null
+                                }
+                                <div className="">
+                                    <p className="db fw6 lh-copy white f5">Don't have an account? </p>
                                     <input 
-                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                    type="password" 
-                                    name="password"  
-                                    id="password" 
-                                    // onChange={this.onPasswordChange}
-                                    />
+                                    // onClick={this.onSubmitRegisterNow}
+                                    onClick={() => this.props.onRouteChange('register')}
+                                    className="b ph3 pv2 white input-reset ba b--black bg-transparent grow pointer f5 dib" 
+                                    type="submit" 
+                                    value="Register Now" />
                                 </div>
-                            </fieldset>
-                            <div className="">
-                                <input 
-                                onClick={this.onSubmitSignIn}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-                                type="submit" 
-                                value="Sign in" />
                             </div>
-                            <div className="">
-                                <p className="db fw6 lh-copy f4">Don't have an account? </p>
-                                <input 
-                                onClick={this.onSubmitRegisterNow}
-                                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-                                type="submit" 
-                                value="Register Now" />
-                            </div>
-                        </div>
-                    </main>
-                </article>
+                        </main>
+                    </article>
+                </div>
             </div>
         );
     }
@@ -80,60 +151,7 @@ class SignIn extends Component {
 export default SignIn;
 
 
-// render() {
-//     return(
-//         <div>
-//             <h3>Welcome to the best place to learn French Vocabulary</h3>
-//             <h4>Sign in if you have been here before and if it's your first time, register an account with us!</h4>
-//             <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-//                 <main className="pa4 black-80">
-//                     <div className="measure">
-//                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-//                             <legend className="f2 fw4 ph0 mh0">Sign In</legend>
-//                             <div className="mt3">
-//                                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
-//                                 <input 
-//                                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-//                                 type="text" 
-//                                 name="name"  
-//                                 id="name" 
-//                                 // onChange={this.onNameChange}
-//                                 />
-//                             </div>
-//                             <div className="mt3">
-//                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-//                                 <input 
-//                                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-//                                 type="email" 
-//                                 name="email-address"  
-//                                 id="email-address" 
-//                                 // onChange={this.onEmailChange}
-//                                 />
-//                             </div>
-//                             <div className="mv3">
-//                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-//                                 <input 
-//                                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-//                                 type="password" 
-//                                 name="password"  
-//                                 id="password" 
-//                                 // onChange={this.onPasswordChange}
-//                                 />
-//                             </div>
-//                         </fieldset>
-//                         <div className="">
-//                             <input 
-//                             onClick={this.onSubmitSignIn}
-//                             className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
-//                             type="submit" 
-//                             value="Sign in" />
-//                         </div>
-//                     </div>
-//                 </main>
-//             </article>
-//         </div>
-//     );
-// }
-// }
-
-
+// Best way to integrate 4K videos for free:
+// Find 4K video on youtube 
+// Download with 4K Video Downloader app, save in MKV format
+// Trim video with Films & TV app

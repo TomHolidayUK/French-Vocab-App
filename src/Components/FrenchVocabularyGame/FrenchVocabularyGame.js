@@ -3,7 +3,10 @@ import './FrenchVocabularyGame.css';
 import vocabulary from './Vocabulary.js';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
+import axios from 'axios';
 // import Reverso from reverso-api;
+const Reverso = require('reverso-api');
+const reverso = new Reverso();
 
 
 class FrenchVocabularyGame extends Component {
@@ -12,6 +15,7 @@ class FrenchVocabularyGame extends Component {
     this.state = {
       currentWordEnglish: '',
       currentWordFrench: '',
+      currentWordType: '',
       userInput: '',
       isCorrect: null,
       totalAttempts: 0,
@@ -42,9 +46,11 @@ selectWord = (totalAttempts) => {
     if (customList && customList.length > this.state.totalAttempts) {
         const selectedWord = customList[this.state.totalAttempts];
         console.log('custom list in FrenchVocabularyGame.js 2', this.props.customList)
+        console.log('add this to db')
     this.setState({
         currentWordEnglish: selectedWord.English,
         currentWordFrench: selectedWord.French,
+        currentWordType: selectedWord.type,
         userInput: '',
         isCorrect: null,
         hint: ''
@@ -77,6 +83,26 @@ this.setState({ isCorrect });
 if (isCorrect === true ) {
     this.setState((prevState) => ({
         correctAnswers: prevState.correctAnswers + 1}));
+
+        // Update progress state
+        fetch('http://localhost:3000/progress', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id: this.props.user.id
+                // id: this.state.user.id
+            })
+        })
+        .then(response => response.json())
+        .then(count => {
+        // Object.asign is used to assign a new entry count value to a specific user
+        // If you need to update multiple variables, use this 
+        // this.setState(Object.assign(this.state.user, { entries: count}))
+        this.setState({user: {
+            progress: count
+        }})
+      })
+
 } else if (isCorrect === false) {
     this.setState((prevState) => ({
         incorrectAnswers: prevState.incorrectAnswers + 1}));
@@ -116,26 +142,21 @@ handleToggle = () => {
     this.setState((prevState) => ({ difficultMode: !prevState.difficultMode }));
   };
 
-handleClick = () => {
-console.log('Text clicked!');
-const Reverso = require('reverso-api')
-const reverso = new Reverso()   
-console.log('test')
-reverso.getContext(
-    'meet me half way',
-    'english',
-    'russian',
-    (err, response) => {
-        if (err) throw new Error(err.message)
-        console.log('context', response)
-    }
-)
 
-// reverso.getConjugation('aller', 'french', (err, response) => {
-//     if (err) throw new Error(err.message)
-//     console.log('conjugation', response)
-// })
-};
+Pronunciation = async () => {
+    const textToSynthesize = this.state.currentWordFrench;
+    const response = await fetch(`http://localhost:3000/synthesize-speech?text=${textToSynthesize}`);
+    const audioData = await response.arrayBuffer();
+
+    // Play the synthesized audio
+    const audioContext = new AudioContext();
+    const audioBuffer = await audioContext.decodeAudioData(audioData);
+    const audioSource = audioContext.createBufferSource();
+    audioSource.buffer = audioBuffer;
+    audioSource.connect(audioContext.destination);
+    audioSource.start();
+}
+
 
 restart = () => {
     const result = window.confirm("Are you sure you want to proceed? You will lose all your progress");
@@ -169,11 +190,12 @@ hint = () => {
 
     const finalHint = 'Hint: ' + firstLetter + ' ' + underscoreString
     this.setState({ hint: finalHint})
-
 }
 
+
+
   render() {
-    const { currentWordEnglish, currentWordFrench, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup} = this.state;
+    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup} = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="background-image3">
@@ -197,7 +219,18 @@ hint = () => {
             placeholder='Type here...'
             onKeyPress={this.handleKeyPress}/>
             {isCorrect !== null && (
-            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b className="clickable-element" onClick={this.handleClick}>{currentWordFrench}</b></p>}</div>
+            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b className="clickable-element" onClick={this.onClick}>{currentWordFrench}</b></p>}
+                <div class="centered-container">
+                    <div class="flex-container">
+                    <h6><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
+                    <h6>| |</h6>
+                    <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
+                    {(currentWordType === 'verb') && 
+                        <h6>| |<a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
+                    }
+                    </div>
+                </div>  
+            </div>
             )}
         </div>
 

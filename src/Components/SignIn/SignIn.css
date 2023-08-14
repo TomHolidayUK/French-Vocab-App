@@ -9,4 +9,71 @@
     background-position: center;
     background-repeat: no-repeat;
   }
+
+
+  .mainvideo {
+    width: 100%;
+    height: 100vh;
+  }
+  
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    /* This means it takes up full height and width of screen - great for any background image or video */
+  } 
+  
+  .content {
+    /* position: absolute; */
+    /* width: 100%;
+    height: 100%; */
+    height: 100vh;
+    /* top: 0; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .center-component {
+    /* Style for the component in the center */
+    margin-top: auto; /* Pushes the center component to the center of the container */
+  }
+  
+  .overlay {
+    position: relative;
+    /* top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; */
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  /* .top {
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    font: black;
+  } */
+
+  .top {
+    /* Style for the component at the top */
+    margin-bottom: auto; /* Pushes the top component to the top of the container */
+  }
+
+  .bg-opacity-75 {
+    background-color: rgba(255, 255, 255, 0.247); /* Adjust the opacity value as needed */
+  }
+
+  
+  
+  
+  
+
   

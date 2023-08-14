@@ -3,9 +3,6 @@ import React from 'react';
 import Filter from './Components/Filter/Filter';
 import SignIn from './Components/SignIn/SignIn';
 import Register from './Components/Register/Register';
-// import pic from './Background/1.jpg';
-// import pic2 from './Background/14.jpg';
-// import pic3 from './Background/4.jpg';
 import ParticlesBg from "particles-bg";
 import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabularyGame';
 
@@ -19,34 +16,40 @@ class App extends React.Component {
       // route: 'register',
       // route: 'setup',
       // route: 'game',
-      isSignedIn: false
-    };
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        progress: 0,
+        joined: ''
+      }
+    }
   }
 
-  // handleStateUpdate = (newValue) => {
-  //   this.setState({ customList: newValue });
-  //   console.log('custom list in app.js', this.state.customList)
-  // };
+  // Have a function to load user data, this will include props for id, name etc...
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      progress: data.progress,
+      joined: data.joined
+    }})
+  }
+
+  // // In order to communicate with the backend (server) from the front end we use fetch
+  // componentDidMount() {
+  //   fetch('http://localhost:3000/')
+  //     .then(response => response.json())
+  //     .then(console.log)
+  // }
 
   handleStateUpdate = (newValue) => {
     this.setState({ customList: newValue }, () => {
     });
     this.setState({ route: 'game'})
   };
-
-  //  // Control sign in and sign out state
-  //  onRouteChange = (route) => {
-  //   if (route === 'signout') {
-  //     console.log('hello')
-  //     this.setState({ route: 'signin' }, () => {
-  //       console.log('state', this.state.route);
-  //     });
-  //   }
-  //   else if (route === 'home') {
-  //     this.setState({isSignedIn: true})
-  //   }
-  //   this.setState({route: route});
-  // }
 
   // Control sign in and sign out state
   onRouteChange = (route) => {
@@ -64,7 +67,7 @@ class App extends React.Component {
   }
 
   render () {
-    const { route } = this.state;
+    const { user } = this.state;
     return (
       <div className='App' 
       // style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}
@@ -72,10 +75,10 @@ class App extends React.Component {
       <div>
         {/* <ParticlesBg type="circle" bg={true} /> */}
         {/* {this.state.route === 'signin' && <h1>Sign In Page</h1>} */}
-        {this.state.route === 'signin' && <SignIn onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'register' && <Register onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'setup' && <Filter customList={this.state.customList} onUpdateState={this.handleStateUpdate} onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'game' && <FrenchVocabularyGame customList={this.state.customList} onRouteChange={this.onRouteChange}/>}
+        {this.state.route === 'signin' && <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
+        {this.state.route === 'register' && <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
+        {this.state.route === 'setup' && <Filter name={user.name} customList={this.state.customList} onUpdateState={this.handleStateUpdate} onRouteChange={this.onRouteChange}/>}
+        {this.state.route === 'game' && <FrenchVocabularyGame user={user} customList={this.state.customList} onRouteChange={this.onRouteChange}/>}
         <div className="fixed-bottom-right">Made by Tom Holiday</div>
       </div>
       </div>
