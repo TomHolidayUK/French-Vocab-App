@@ -3,10 +3,6 @@ import './FrenchVocabularyGame.css';
 import vocabulary from './Vocabulary.js';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
-import axios from 'axios';
-// import Reverso from reverso-api;
-const Reverso = require('reverso-api');
-const reverso = new Reverso();
 
 
 class FrenchVocabularyGame extends Component {
@@ -21,6 +17,7 @@ class FrenchVocabularyGame extends Component {
       totalAttempts: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
+      percentage: 0,
       stage: 'no results', // show results or not
       difficultMode: false,
       hint: '',
@@ -66,6 +63,15 @@ this.setState({ userInput: event.target.value });
 
 // Method to check user answer
 checkAnswer = () => {
+
+    const percentage1 = (this.state.totalAttempts/(this.props.customList.length)*100).toFixed(1);
+    console.log(percentage1)
+    console.log(this.state.totalAttempts)
+    console.log(this.props.customList.length)
+    this.setState({percentage: {
+        percentage: percentage1
+    }})
+
 const { userInput, currentWordFrench, difficultMode } = this.state;
 let isCorrect;
 if (difficultMode === true) {
@@ -207,27 +213,32 @@ hint = () => {
                 </div>
             </nav>
             <h2>French Vocabulary Game</h2>
-            {/* {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(vocabulary.length)*100} />} */}
-            {(totalAttempts > 0) && <ProgressBar completed={totalAttempts/(this.props.customList.length)*100} />}
+            {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />}
             <h5>Translate the following:</h5>
-            <motion.p className="b pb1 f4" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>{currentWordEnglish}</motion.p>
-            <h6>{this.state.hint}</h6>
+            <motion.p
+                key={currentWordEnglish} // Add the key prop here
+                className="b pb1 f4"
+                animate={{ y: 5, scale: 1 }}
+                initial={{ scale: 0 }}>
+                {currentWordEnglish}
+            </motion.p>
+            <h6>{hint}</h6>
             <input 
             className='f4 pa1 pv1 w-20 center' 
             type="text" value={userInput} 
             onChange={this.handleUserInput} 
             placeholder='Type here...'
-            onKeyPress={this.handleKeyPress}/>
+            onKeyDown={this.handleKeyPress}/>
             {isCorrect !== null && (
-            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b className="clickable-element" onClick={this.onClick}>{currentWordFrench}</b></p>}
+            <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b>{currentWordFrench}</b></p>}
                 <div class="centered-container">
                     <div class="flex-container">
-                    <h6><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
-                    <h6>| |</h6>
-                    <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
-                    {(currentWordType === 'verb') && 
-                        <h6>| |<a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
-                    }
+                        <h6><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
+                        <h6>| |</h6>
+                        <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
+                        {(currentWordType === 'verb') && 
+                            <h6>| |<a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
+                        }
                     </div>
                 </div>  
             </div>

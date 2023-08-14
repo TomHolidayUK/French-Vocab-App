@@ -9,11 +9,12 @@ class Filter extends Component {
       selectedTypes: [],
       selectedNumberOfWords: '',
       selectAllChecked: false,
+      selectedDifficulty: '',
       readiness: '',
       data: [],
     };
   }
-
+ 
 //  handleFileUpload = (e) => {
 //   console.log(e)
 //     const reader = new FileReader();
@@ -103,66 +104,89 @@ handleSelectChange = (event) => {
     this.setState({ selectedNumberOfWords: value });
   };
 
+handleDifficultyChange = (event) => {
+  const { value } = event.target;
+  this.setState({ selectedDifficulty: value });
+};
+
   render() {
     const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue } = this.state;
     const { name } = this.props;
     return (
       <div className="background-image2">
-        <div id="wordCategory">
-
-          <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
-          </nav>
-          <h1>French Vocabulary Game</h1>
-          <h5>{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
-          <div className="pb3 pt2">
-          <h5>How many words do you want to learn?</h5>
-            <select
-              // className="form-select"
-              // aria-label="Default select example"
-              id="wordCategory"
-              defaultValue=""
-              onChange={this.handleSelectChange}>
-              <option disabled value="">
-                Select Number
-              </option>
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
+        <div className="all-content">
+          <div id="wordCategory">
+            <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
+            {/* <nav className="navigation"> */}
+              <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
+            </nav>
+            <div className="center-content">
+              <h1>Setup Page</h1>
+              <h5>{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
+              <div className="pb3 pt2">
+                <h5>How many words do you want to learn?</h5>
+                  <select
+                    id="wordCategory"
+                    defaultValue=""
+                    className="br3 tc"
+                    onChange={this.handleSelectChange}>
+                    <option disabled value="">
+                      --Select Number--
+                    </option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+              </div>
+              
+              <h5>What type of words do you want to learn?</h5>
+              <div className="tick-box">
+                <label><input type="checkbox" value="adjective" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('adjective')}/>
+                  Adjectives 
+                </label>
+                <label><input type="checkbox" value="noun" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('noun')}/>
+                  Nouns 
+                </label>
+                <label><input type="checkbox" value="verb" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('verb')}/>
+                  Verbs 
+                </label>
+                <label><input type="checkbox" value="others" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('others')}/>
+                  Other 
+                </label>
+                <label><input type="checkbox" checked={selectAllChecked} onChange={this.handleSelectAllChange}/>
+                  <b>ALL</b>
+                </label>
+              </div>
+              <div className="pb3 pt2">
+                <h5>What difficulty of words do you want to learn?</h5>
+                  <select
+                    id="wordCategory"
+                    defaultValue=""
+                    className="br3 tc"
+                    onChange={this.handleDifficultyChange}>
+                    <option disabled value="">
+                      --Select Difficulty--
+                    </option>
+                    <option value="B">Beginner</option>
+                    <option value="I" disabled>Intermediate (coming soon)</option>
+                    <option value="A" disabled>Advanced (coming soon)</option>
+                  </select>
+              </div>
+              <div className='btn'>
+                <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList}>Generate List and Begin!</button>
+                {(readiness === 'ready') && (<div>Your words are ready!</div>)}
+                {(readiness === 'not ready') && (<h6>You haven't inputted sufficient details to setup the game!</h6>)}
+              </div>
+              {/* <div>
+              <input 
+                type="file" 
+                accept=".xlsx, .xls" 
+                onChange={this.handleFileUpload} />
+              </div> */}
+            </div>
           </div>
-          
-          <h5>What type of words do you want to learn?</h5>
-          <label><input type="checkbox" value="adjective" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('adjective')}/>
-            Adjectives
-          </label>
-          <label><input type="checkbox" value="noun" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('noun')}/>
-            Nouns
-          </label>
-          <label><input type="checkbox" value="verb" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('verb')}/>
-            Verbs
-          </label>
-          <label><input type="checkbox" value="others" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('others')}/>
-            Other
-          </label>
-          <label><input type="checkbox" checked={selectAllChecked} onChange={this.handleSelectAllChange}/>
-            <b>ALL</b>
-          </label>
         </div>
-
-        <button className='grow pv1 mv3 f4 mh2 link dib bg-light-purple' onClick={this.createCustomList}>Generate List and Begin!</button>
-        {(readiness === 'ready') && (<div>Your words are ready!</div>)}
-        {(readiness === 'not ready') && (<h6>You haven't inputted sufficient details to setup the game!</h6>)}
-
-        {/* <div>
-        <input 
-          type="file" 
-          accept=".xlsx, .xls" 
-          onChange={this.handleFileUpload} />
-        </div> */}
-
-
       </div>
     );
   }

@@ -72,17 +72,17 @@ class SignIn extends Component {
             <div className='mainvideo'> 
                 {/* <div className="overlay"></div> */}
                 <video src={videoBg} autoPlay loop muted/>
-                {/* <div><h3 classname='top'>Welcome to the best place to learn French Vocabulary!</h3></div> */}
                 <div className="content">
-                    <h3 classname='top'>Welcome to the best place to learn French Vocabulary!</h3>
-                    {/* <h4>Sign in if you've been here before and if it's your first time, register an account with us!</h4> */}
+                    <h3>Welcome to the best place to learn French Vocabulary!</h3>
+                    <h4>Learn words from our extensive database of vocabulary using a language learning algorithm</h4>
+                    <h4>Sign in if you've been here before or if it's your first time, register an account with us!</h4>
                     {/* <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center"> */}
-                    <article className="center-component br3 ba bg-opacity-75 dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center">
+                    <article className="sign-in-box br3 ba dark-gray b--white-20 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center">
                         {/* <div className="overlay"></div> */}
-                        <main className="pa4 black-80">
+                        <main className="pa3 black-80">
                             <div className="measure">
                                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                                    <legend className="f2 fw4 white ph0 mh0">Sign In</legend>
+                                    <legend className="f1 fw4 white ph0 mh0">Sign In</legend>
                                     {/* <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                                         <input 
@@ -101,7 +101,7 @@ class SignIn extends Component {
                                         name="email-address"  
                                         id="email-address" 
                                         onChange={this.onEmailChange}
-                                        onKeyPress={this.handleKeyPress}
+                                        onKeyDown={this.handleKeyPress}
                                         />
                                     </div>
                                     <div className="mv3">
@@ -112,7 +112,7 @@ class SignIn extends Component {
                                         name="password"  
                                         id="password" 
                                         onChange={this.onPasswordChange}
-                                        onKeyPress={this.handleKeyPress}
+                                        onKeyDown={this.handleKeyPress}
                                         />
                                     </div>
                                 </fieldset>
@@ -131,7 +131,7 @@ class SignIn extends Component {
                                     null
                                 }
                                 <div className="">
-                                    <p className="db fw6 lh-copy white f5">Don't have an account? </p>
+                                    <p className="db fw6 pt2 lh-copy white f5">Don't have an account? </p>
                                     <input 
                                     // onClick={this.onSubmitRegisterNow}
                                     onClick={() => this.props.onRouteChange('register')}

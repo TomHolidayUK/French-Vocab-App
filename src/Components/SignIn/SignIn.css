@@ -24,52 +24,35 @@
   } 
   
   .content {
-    /* position: absolute; */
-    /* width: 100%;
-    height: 100%; */
-    height: 100vh;
-    /* top: 0; */
+    position: fixed; 
+    width: 100%;
+    height: 100%;
+    top: 0; 
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    justify-content: flex-start;
     align-items: center;
+    margin-top: 3vh; 
   }
 
-  .center-component {
-    /* Style for the component in the center */
-    margin-top: auto; /* Pushes the center component to the center of the container */
+  .sign-in-box {
+    position: relative;
+    top: 6vh;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    box-shadow: -7px -7px 20px rgba(0, 0, 0, 0.2),
+                 7px  7px 20px rgba(0, 0, 0, 0.2)
   }
   
   .overlay {
     position: relative;
-    /* top: 0;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 100%; */
+    height: 100%; 
     background-color: rgba(0,0,0,0.5);
   }
 
-  /* .top {
-    position: absolute;
-    width: 100%;
-    height: 100%; 
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    align-items: center;
-    font: black;
-  } */
-
-  .top {
-    /* Style for the component at the top */
-    margin-bottom: auto; /* Pushes the top component to the top of the container */
-  }
-
-  .bg-opacity-75 {
-    background-color: rgba(255, 255, 255, 0.247); /* Adjust the opacity value as needed */
-  }
 
   
   
