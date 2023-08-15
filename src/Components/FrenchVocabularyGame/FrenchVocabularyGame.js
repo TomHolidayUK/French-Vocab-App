@@ -91,7 +91,8 @@ if (isCorrect === true ) {
         correctAnswers: prevState.correctAnswers + 1}));
 
         // Update progress state
-        fetch('http://localhost:3000/progress', {
+        // fetch('http://localhost:3000/progress', {
+        fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/progress', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
