@@ -152,7 +152,7 @@ handleToggle = () => {
 
 Pronunciation = async () => {
     const textToSynthesize = this.state.currentWordFrench;
-    const response = await fetch(`http://localhost:3000/synthesize-speech?text=${textToSynthesize}`);
+    const response = await fetch(`https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/synthesize-speech?text=${textToSynthesize}`);
     const audioData = await response.arrayBuffer();
 
     // Play the synthesized audio
