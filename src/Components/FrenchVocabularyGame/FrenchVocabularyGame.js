@@ -263,7 +263,7 @@ hint = () => {
                 </div>
                 <b>Difficult Mode</b>
             </div>
-            <h6 className="pb1">(In Difficult Mode you need to include all special charachters, for info on how to type special charchters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
+            <h6 className="pb1">(In Difficult Mode you need to include all special charachters, for info on how to type special charachters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
 
             <div>
                 {showPopup && (
