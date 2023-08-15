@@ -91,8 +91,8 @@ if (isCorrect === true ) {
         correctAnswers: prevState.correctAnswers + 1}));
 
         // Update progress state
-        // fetch('http://localhost:3000/progress', {
-        fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/progress', {
+        fetch('http://localhost:3000/progress', {
+        // fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/progress', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -152,8 +152,9 @@ handleToggle = () => {
 
 Pronunciation = async () => {
     const textToSynthesize = this.state.currentWordFrench;
-    const response = await fetch(`https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/synthesize-speech?text=${textToSynthesize}`);
-    const audioData = await response.arrayBuffer();
+    const response = await fetch(`http://localhost:3000/synthesize-speech?text=${textToSynthesize}`);
+    // const response = await fetch(`https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/synthesize-speech?text=${textToSynthesize}`);
+    // const audioData = await response.arrayBuffer();
 
     // Play the synthesized audio
     const audioContext = new AudioContext();
