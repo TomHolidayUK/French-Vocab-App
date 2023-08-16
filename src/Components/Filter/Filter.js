@@ -119,13 +119,14 @@ handleDifficultyChange = (event) => {
       <div className="background-image2">
         <div className="all-content">
           <div id="wordCategory">
-            <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            {/* <nav className="navigation"> */}
-              <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
-            </nav>
+            <div className="navbar">
+              <nav className="flex"><h4 onClick={() => this.props.onRouteChange('signout')} className='text link dim underline ph3 pointer'>Sign Out</h4></nav>
+            </div>
             <div className="center-content">
               <h1>Setup Page</h1>
-              <h5>{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
+              <h5 className="welcome-small">{`Welcome ${name}`}</h5>
+              <h5 className="welcome-medium">{`Hi ${name}, choose what words you want to learn`}</h5>
+              <h5 className="welcome-large">{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
               <div className="pb3 pt2">
                 <h5>How many words do you want to learn?</h5>
                   <select
@@ -145,19 +146,19 @@ handleDifficultyChange = (event) => {
               
               <h5>What type of words do you want to learn?</h5>
               <div className="tick-box">
-                <label><input type="checkbox" value="adjective" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('adjective')}/>
+                <label className="fw6"><input type="checkbox" value="adjective" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('adjective')}/>
                   Adjectives 
                 </label>
-                <label><input type="checkbox" value="noun" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('noun')}/>
+                <label className="fw6"><input type="checkbox" value="noun" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('noun')}/>
                   Nouns 
                 </label>
-                <label><input type="checkbox" value="verb" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('verb')}/>
+                <label className="fw6"><input type="checkbox" value="verb" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('verb')}/>
                   Verbs 
                 </label>
-                <label><input type="checkbox" value="others" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('others')}/>
+                <label className="fw6"><input type="checkbox" value="others" onChange={this.handleCheckboxChange} checked={selectedTypes.includes('others')}/>
                   Other 
                 </label>
-                <label><input type="checkbox" checked={selectAllChecked} onChange={this.handleSelectAllChange}/>
+                <label className="fw6"><input type="checkbox" checked={selectAllChecked} onChange={this.handleSelectAllChange}/>
                   <b>ALL</b>
                 </label>
               </div>
@@ -179,7 +180,7 @@ handleDifficultyChange = (event) => {
               <div className='btn'>
                 <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList}>Generate List and Begin!</button>
                 {(readiness === 'ready') && (<div>Your words are ready!</div>)}
-                {(readiness === 'not ready') && (<h6>You haven't inputted sufficient details to setup the game!</h6>)}
+                {(readiness === 'not ready') && (<h5>You haven't inputted sufficient details to setup the game!</h5>)}
               </div>
               {/* <div>
               <input 

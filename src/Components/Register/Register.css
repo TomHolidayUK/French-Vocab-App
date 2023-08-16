@@ -38,4 +38,23 @@
                  7px  7px 20px rgba(0, 0, 0, 0.2)
               
   }
+
+  /* Mobile devices */
+@media (max-width: 767px) {
+  /* Your styles for mobile devices */
+}
+
+/* Tablet devices */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .register-box {
+    transform: scale(0.7); 
+    transform-origin: center center; 
+  }
+}
+
+/* Desktop devices */
+@media (min-width: 1024px) {
+  /* Your styles for desktop devices */
+}
+
   

@@ -38,4 +38,72 @@
   width: 30%;
   justify-content: space-between;
 }
- 
+
+.container {
+  margin: 0 auto;
+  overflow: visible;
+  border: 1px solid gray;
+}
+
+.navbar {
+  height: 75px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+
+/* Mobile devices */
+@media (max-width: 767px) {
+  .all-content {
+    font-size: 14px;
+    height: auto;
+    text-align: center;
+  }
+
+  .tick-box {
+    width: 100%;
+  }
+
+  .welcome-large, .welcome-medium {
+    display: none;
+  }
+}
+
+/* Tablet devices */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  .all-content {
+    height: auto;
+    text-align: center;
+  }
+
+  .center-content {
+    transform: scale(1.4); /* Scale up the entire content */
+    transform-origin: center center; /* Set the scaling origin to the center */
+  }
+
+  .welcome-small, .welcome-large {
+    display: none;
+  }
+
+  .tick-box {
+    width: 100%;
+  }
+
+  .navbar {
+    width: 110%;
+  }
+  
+
+}
+
+/* Desktop devices */
+@media (min-width: 1024px) {
+  
+  .welcome-small, .welcome-medium {
+    display: none;
+  }
+
+}

@@ -58,8 +58,9 @@ class Register extends Component {
                         <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim white underline ph3 pointer'>Sign Out</p>
                     </div>
                 </nav>
+                <h2 className="white pt5">Register for free to learn French Vocabulary</h2>
                 <div className="center-content">
-                    <h2 className="white">Register for free to learn French Vocabulary</h2>
+                    {/* <h2 className="white">Register for free to learn French Vocabulary</h2> */}
                     {/* <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center"> */}
                     <article className="register-box bg-opacity-15 br3 ba near-white b--white-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
                         <main className="pa4 white-80">

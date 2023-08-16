@@ -70,17 +70,21 @@ class App extends React.Component {
     const { user } = this.state;
     return (
       <div className='App' 
-      // style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}
-      >
-      <div>
-        {/* <ParticlesBg type="circle" bg={true} /> */}
-        {/* {this.state.route === 'signin' && <h1>Sign In Page</h1>} */}
-        {this.state.route === 'signin' && <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'register' && <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'setup' && <Filter name={user.name} customList={this.state.customList} onUpdateState={this.handleStateUpdate} onRouteChange={this.onRouteChange}/>}
-        {this.state.route === 'game' && <FrenchVocabularyGame user={user} customList={this.state.customList} onRouteChange={this.onRouteChange}/>}
-        <div className="fixed-bottom-right">Made by Tom Holiday</div>
-      </div>
+        // style={{ backgroundImage: `url(${pic})`,backgroundRepeat: 'no-repeat', backgroundSize:"contain"}}
+        >
+        <div>
+          {/* <ParticlesBg type="circle" bg={true} /> */}
+          {/* {this.state.route === 'signin' && <h1>Sign In Page</h1>} */}
+          {this.state.route === 'signin' && <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
+          {this.state.route === 'register' && <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>}
+          {this.state.route === 'setup' && <Filter name={user.name} customList={this.state.customList} onUpdateState={this.handleStateUpdate} onRouteChange={this.onRouteChange}/>}
+          {this.state.route === 'game' && <FrenchVocabularyGame user={user} customList={this.state.customList} onRouteChange={this.onRouteChange}/>}
+          <div className="footer">
+            <div>Insta: tomholiday</div>
+            <div className="footer-middle">Made by Tom Holiday</div>
+            <div>Email: tom.holiday@mac.com</div>
+          </div>
+        </div>
       </div>
     );
   }

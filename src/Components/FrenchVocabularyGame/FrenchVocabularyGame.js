@@ -192,7 +192,7 @@ hint = () => {
     this.setState({ hint: finalHint})
 }
 
-
+ 
 
   render() {
     const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup} = this.state;
@@ -200,12 +200,13 @@ hint = () => {
     return (
         <div className="background-image3">
         <div className='pa1 pt9 tc'>
-            <nav style={{display: 'flex ', justifyContent: 'flex-end'}}>
+            <nav className="navigation" style={{display: 'flex ', justifyContent: 'flex-end'}}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                <p onClick={() => this.props.onRouteChange('setup')} className='f4 link dim black underline ph3 pointer'>Select Words</p>
-                    <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim black underline ph3 pointer'>Sign Out</p>
+                <h4 onClick={() => this.props.onRouteChange('setup')} className='link dim black underline ph2 pointer'>Select Words</h4>
+                    <h4 onClick={() => this.props.onRouteChange('signout')} className='link dim black underline ph2 pointer'>Sign Out</h4>
                 </div>
             </nav>
+        <div className="middle-content">
             <h2>French Vocabulary Game</h2>
             {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />}
             <h5>Translate the following:</h5>
@@ -218,7 +219,7 @@ hint = () => {
             </motion.p>
             <h6>{hint}</h6>
             <input 
-            className='f4 pa1 pv1 w-20 center' 
+            className='text-input f4 w-20 center' 
             type="text" value={userInput} 
             onChange={this.handleUserInput} 
             placeholder='Type here...'
@@ -241,11 +242,11 @@ hint = () => {
 
         {(totalAttempts !== (this.props.customList.length)) ?
         <div>
-            <div>
-                <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
-                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
-                <button className='grow f4 mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
-                <button className='grow f6 mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
+            <div className="buttons">
+                <button className='grow mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
+                <button className='grow mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
+                <button className='grow mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
+                <button className='grow mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
             </div>
             {/* <p>*Use the buttons or use the 'Enter' key*</p> */}
             <div className="toggle-container pv2 ph3">
@@ -256,7 +257,7 @@ hint = () => {
                 </div>
                 <b>Difficult Mode</b>
             </div>
-            <h6 className="pb1">(In Difficult Mode you need to include all special charachters, for info on how to type special charachters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
+            <h6 className="pb1 wide-text">(In Difficult Mode you need to include all special charachters, for info on how to type special charachters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
 
             <div>
                 {showPopup && (
@@ -310,7 +311,8 @@ hint = () => {
         {/* <p>**There are five accent marks in French, and each of them can significantly impact the way you pronounce French words. Therefore enter words correctly WITH ACCENTS**</p>
         <p>é – the acute accent (l'accent aigu)<br />à/è/ì/ò/ù – the grave accent (l'accent grave)<br />â/ê/î/ô/û – the circumflex (l'accent circonflexe)<br />ç – the cedilla (la cédille)<br />ë/ï/ü – the trema (l'accent tréma)</p>
         <b>Functions to add:<br />Sort order - don't have 2 words in a row<br />Have levels<br />Display statistics<br />Make spelling allowances especially for incorrect accents and capital letters<br />Style well with nice background<br />Add pictures<br />Animation when new word appears</b> */}
-        </div>
+    </div>
+    </div>
     );
   }
 }

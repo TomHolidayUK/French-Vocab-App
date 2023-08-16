@@ -75,9 +75,9 @@ class SignIn extends Component {
                 {/* <div className="overlay"></div> */}
                 <video src={videoBg} autoPlay loop muted/>
                 <div className="content">
-                    <h3>Welcome to the best place to learn French Vocabulary!</h3>
-                    <h4>Learn words from our extensive database of vocabulary using a language learning algorithm</h4>
-                    <h4>Sign in if you've been here before or if it's your first time, register an account with us!</h4>
+                    <h3 className="opening-text">Welcome to the best place to learn French Vocabulary!</h3>
+                    <h4 className="opening-text-2">Learn words from our extensive database of vocabulary using a language learning algorithm</h4>
+                    <h4 className="opening-text-3">Sign in if you've been here before or if it's your first time, register an account with us!</h4>
                     {/* <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center"> */}
                     <article className="sign-in-box br3 ba dark-gray b--white-20 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center">
                         {/* <div className="overlay"></div> */}
