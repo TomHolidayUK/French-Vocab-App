@@ -49,11 +49,11 @@ createCustomList = () => {
     console.log('filteredData1', filteredData1);
 
     // Filter the words to only include the types that the user wants (filter 2)
-    const filteredData2 = vocabulary.filter(item => selectedTypes.includes(item.type));
+    const filteredData2 = filteredData1.filter(item => selectedTypes.includes(item.type));
     console.log('filteredData2', filteredData2);
 
     // Filter the words to only be the length that the user wants (filter 3)
-    const filteredData3 = filteredData1.slice(0, selectedNumberOfWords);
+    const filteredData3 = filteredData2.slice(0, selectedNumberOfWords);
     console.log('filteredData3', filteredData3);
     
 
