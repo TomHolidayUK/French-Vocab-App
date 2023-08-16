@@ -15,7 +15,7 @@ const vocabulary = [
     English: "I",
     French: "je",
     index: 3,
-    type: "pronoun"
+    type: "others"
   },
   {
     English: "not",

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './FrenchVocabularyGame.css';
-import vocabulary from './Vocabulary.js';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
 
@@ -83,7 +82,6 @@ if (isCorrect === true ) {
 
         // Update progress state
         // fetch('http://localhost:3000/progress', {
-        // fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/progress', {
             fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/progress', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},

@@ -46,14 +46,14 @@ createCustomList = () => {
     // const filteredData1 = this.state.parsedData.filter(item => selectedTypes.includes(item.type));
     // console.log(selectedTypes)
     const filteredData1 = vocabulary.filter(item => selectedTypes.includes(item.type));
-    // console.log('filteredData1', filteredData1);
+    console.log('filteredData1', filteredData1);
     // Filter the words to only be the length that the user wants (filter 2)
     const filteredData2 = filteredData1.slice(0, selectedNumberOfWords);
-    // console.log('filteredData2', filteredData2);
+    console.log('filteredData2', filteredData2);
     
     // Now randomise the words (filter 3)
     const filteredData3 = this.shuffleArray(filteredData2);
-    // console.log('filteredData3', filteredData3);
+    console.log('filteredData3', filteredData3);
     // filteredData3 is now the user-customised and randomised list 
     if (filteredData3.length > 0) {
       const { onUpdateState } = this.props;
