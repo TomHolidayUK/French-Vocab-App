@@ -111,6 +111,7 @@ this.props.customList.splice(indexToInsert, 0, this.props.customList[this.state.
 this.setState((prevState) => ({
     totalAttempts: prevState.totalAttempts + 1
     }));
+this.Pronunciation();
 };
 
 // Method to move to the next word
@@ -235,7 +236,6 @@ hint = () => {
                 <div class="centered-container">
                     <div class="flex-container">
                         <h6 className="border-right"><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
-                        {/* <h6>| |</h6> */}
                         <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
                         {(currentWordType === 'verb') && 
                             <h6 className="border-left"><a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
@@ -298,7 +298,13 @@ hint = () => {
         </div>
         :
         <div>
-            <h3>Congratulations! You have completed the level</h3>
+            <motion.p
+                key={<h3>Congratulations, You have completed the level!</h3>}
+                className="b f4"
+                animate={{ scale: 1 }}
+                initial={{ scale: 0 }}>
+                <h3>Congratulations, You have completed the level!</h3>
+            </motion.p>
             <h4>Here are your final results:</h4>
             <div className='f4'>
                 <div className='bordered-content'>

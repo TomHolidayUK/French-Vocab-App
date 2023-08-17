@@ -59,10 +59,10 @@
 /* Mobile devices */
 @media (max-width: 767px) {
   
-  .sign-in-box {
-    transform: scale(0.9); /* Scale up the entire content */
-    transform-origin: center center; /* Set the scaling origin to the center */
-  }
+  /* .sign-in-box {
+    transform: scale(0.9); 
+    transform-origin: center center; 
+  } */
 
   .opening-text-2, .opening-text-3 {
     display: none;
@@ -73,10 +73,10 @@
 /* Tablet devices */
 @media (min-width: 768px) and (max-width: 1023px) {
   
-  .sign-in-box {
-    transform: scale(1.2); /* Scale up the entire content */
-    transform-origin: center center; /* Set the scaling origin to the center */
-  }
+  /* .sign-in-box {
+    transform: scale(1.2); 
+    transform-origin: center center; 
+  } */
   
 }
 

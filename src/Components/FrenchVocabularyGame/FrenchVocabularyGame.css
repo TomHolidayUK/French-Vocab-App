@@ -249,6 +249,14 @@ input:checked + .slider:before {
   border-right: 1.5px solid black;
 }
 
+.bordered-content h6 {
+  margin: 0 -2px;
+}
+
+.text-input {
+  line-height: normal;
+}
+
 
 /* Mobile devices */
 @media (max-width: 767px) {

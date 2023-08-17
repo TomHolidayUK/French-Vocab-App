@@ -70,10 +70,10 @@
 
 /* Tablet devices */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .register-box {
+  /* .register-box {
     transform: scale(0.7); 
     transform-origin: center center; 
-  }
+  } */
 }
 
 /* Desktop devices */
