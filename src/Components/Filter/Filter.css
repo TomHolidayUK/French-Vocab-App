@@ -45,22 +45,35 @@
   border: 1px solid gray;
 }
 
-.navbar {
-  height: 75px;
-  width: 100%;
+
+.header {
+  position: absolute;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: flex-start;
+  width: 100vw;
+  right: 0;
+  /* background-color: rgba(252, 252, 252, 0.5);
+  border: 1px solid black; */
+}
+
+.sign-out {
+    /* display: flex; */
+    flex-direction: row;
+    align-items: center;
+    /* border: 1px solid black; */
+    align-content: center;
+    padding-right: 10px;
 }
 
 
 /* Mobile devices */
 @media (max-width: 767px) {
-  .all-content {
+  /* .all-content {
     font-size: 14px;
     height: auto;
     text-align: center;
-  }
+  } */
 
   .tick-box {
     width: 100%;
@@ -79,10 +92,10 @@
     text-align: center;
   }
 
-  .center-content {
-    transform: scale(1.4); /* Scale up the entire content */
-    transform-origin: center center; /* Set the scaling origin to the center */
-  }
+  /* .center-content {
+    transform: scale(1.4); 
+    transform-origin: center center; 
+  } */
 
   .welcome-small, .welcome-large {
     display: none;
@@ -90,10 +103,6 @@
 
   .tick-box {
     width: 100%;
-  }
-
-  .navbar {
-    width: 110%;
   }
   
 

@@ -53,9 +53,9 @@ class Register extends Component {
     render() {
         return(
             <div className="background-image4">
-                <nav style={{display: 'flex ', justifyContent: 'flex-end'}}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim white underline ph3 pointer'>Sign Out</p>
+                <nav className="header">
+                    <div className="sign-out">
+                        <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim white underline pointer'>Sign Out</p>
                     </div>
                 </nav>
                 <h2 className="white pt5">Register for free to learn French Vocabulary</h2>

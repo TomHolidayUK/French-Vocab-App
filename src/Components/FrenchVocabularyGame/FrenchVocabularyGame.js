@@ -200,12 +200,18 @@ hint = () => {
     return (
         <div className="background-image3">
         <div className='pa1 pt9 tc'>
-            <nav className="navigation" style={{display: 'flex ', justifyContent: 'flex-end'}}>
+            <nav className="header">
+                <div className="sign-out">
+                    <p onClick={() => this.props.onRouteChange('setup')} className='nav-right f4 link dim underline pointer'>Select Words</p>
+                    <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim underline pointer'>Sign Out</p>
+                </div>
+            </nav>
+            {/* <nav className="navigation" style={{display: 'flex ', justifyContent: 'flex-end'}}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h4 onClick={() => this.props.onRouteChange('setup')} className='link dim black underline ph2 pointer'>Select Words</h4>
                     <h4 onClick={() => this.props.onRouteChange('signout')} className='link dim black underline ph2 pointer'>Sign Out</h4>
                 </div>
-            </nav>
+            </nav> */}
         <div className="middle-content">
             <h2>French Vocabulary Game</h2>
             {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />}

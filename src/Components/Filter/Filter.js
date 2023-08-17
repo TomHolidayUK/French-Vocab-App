@@ -119,9 +119,14 @@ handleDifficultyChange = (event) => {
       <div className="background-image2">
         <div className="all-content">
           <div id="wordCategory">
-            <div className="navbar">
+            <nav className="header">
+              <div className="sign-out">
+                  <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim underline pointer'>Sign Out</p>
+              </div>
+            </nav>
+            {/* <div className="navbar">
               <nav className="flex"><h4 onClick={() => this.props.onRouteChange('signout')} className='text link dim underline ph3 pointer'>Sign Out</h4></nav>
-            </div>
+            </div> */}
             <div className="center-content">
               <h1>Setup Page</h1>
               <h5 className="welcome-small">{`Welcome ${name}`}</h5>
