@@ -90,6 +90,7 @@ input:checked + .slider:before {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 10px;
 }
 
 .popup {
@@ -153,10 +154,28 @@ input:checked + .slider:before {
 
 .flex-container {
   display: flex;
-  /* justify-content: space-between; */
-  justify-content: space-around; 
-  /* align-items: center; */
+  justify-content: space-between;
+  flex-direction: row;
+  /* justify-content: space-around;  */
+  align-items: center;
+  flex-wrap: nowrap;
   max-width: 500px; 
+  /* border: 1px solid grey; */
+}
+
+.flex-container h6 {
+  /* border: 1px solid black; */
+  padding: 0 7.5px;
+  margin-top: 0px;
+  margin-bottom: -0px;
+}
+
+.border-right {
+  border-right: 2px solid black;
+}
+
+.border-left {
+  border-left: 2px solid black;
 }
 
 .middle-content {
@@ -167,13 +186,22 @@ input:checked + .slider:before {
   padding: 0 3%; 
 }
 
+/* .bottom-info {
+  border: 1px solid black;
+} */
+
 .buttons {
   display: flex;
-  padding: 0 1%;
+  width: 100%;
+  /* padding: 0 2%; */
   margin-top: 4px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   /* border: 1px solid black; */
+}
+
+.center-button {
+  padding: 4px 2px;
 }
 
 .navigation {
@@ -186,12 +214,13 @@ input:checked + .slider:before {
   background-color: rgba(252, 252, 252, 0.5);
 }
 
+.bordered-content {
+  background-color: rgba(252, 252, 252, 0.5);
+}
+
 
 /* Mobile devices */
 @media (max-width: 767px) {
-  .buttons {
-    padding: 0 3vh;
-  }
 
   .text-input {
     min-width: 180px;
@@ -199,22 +228,37 @@ input:checked + .slider:before {
 
   .navigation h4 {
     font-size: 18px; 
-    /* padding-left: 15vh; */
+  }
+
+  .popup h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .popup p {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .popup button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
   }
 }
 
 /* Tablet devices */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .buttons {
-    padding: 0 18vh;
-  }
+
 }
 
 /* Desktop devices */
 @media (min-width: 1024px) {
-  .buttons {
-    padding: 0 43vh;
-  }
+
 }
 
 

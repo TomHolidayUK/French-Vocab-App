@@ -228,11 +228,11 @@ hint = () => {
             <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b>{currentWordFrench}</b></p>}
                 <div class="centered-container">
                     <div class="flex-container">
-                        <h6><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
-                        <h6>| |</h6>
+                        <h6 className="border-right"><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
+                        {/* <h6>| |</h6> */}
                         <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
                         {(currentWordType === 'verb') && 
-                            <h6>| |<a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
+                            <h6 className="border-left"><a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
                         }
                     </div>
                 </div>  
@@ -241,12 +241,12 @@ hint = () => {
         </div>
 
         {(totalAttempts !== (this.props.customList.length)) ?
-        <div>
+        <div className="bottom-info" >
             <div className="buttons">
-                <button className='grow mh2 link dib bg-light-purple' onClick={this.hint}>Hint</button>
-                <button className='grow mh2 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
-                <button className='grow mh2 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
-                <button className='grow mh2 link dib bg-light-purple' onClick={this.restart}>Restart</button>
+                <button className='grow br2 mh1 link dib bg-light-purple' onClick={this.hint}>Hint</button>
+                <button className='center-button grow br2 mh1 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
+                <button className='center-button grow br2 mh1 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
+                <button className='grow br2 mh1 link dib bg-light-purple' onClick={this.restart}>Restart</button>
             </div>
             {/* <p>*Use the buttons or use the 'Enter' key*</p> */}
             <div className="toggle-container pv2 ph3">
@@ -263,24 +263,24 @@ hint = () => {
                 {showPopup && (
                 <div className="overlay">
                     <div className="popup">
-                    <h2>French Special Charachters</h2>
-                    <p>
-                    é – the acute accent (l'accent aigu) <b>(Mac - Option/Alt + E, RELEASE, THEN E)</b><br />
-                    à/è/ì/ò/ù – the grave accent (l'accent grave) <b>(Mac = Option/Alt + `, RELEASE, THEN letter)</b><br />
-                    â/ê/î/ô/û – the circumflex (l'accent circonflexe) <b>(Mac = Option + I, RELEASE, THEN letter)</b><br />
-                    ç – the cedilla (la cédille) <b>(Mac = Option + C)</b><br />
-                    ë/ï/ü – the trema (l'accent tréma) <b>(Mac = Option + U, RELEASE, THEN letter)</b><br />
-                    œ -e dans l'o <b>(Mac = Option/Alt + Q)</b><br /><br />
+                        <h2>French Special Charachters</h2>
+                        <p>
+                        é – the acute accent (l'accent aigu) <b>(Mac - Option/Alt + E, RELEASE, THEN E)</b><br />
+                        à/è/ì/ò/ù – the grave accent (l'accent grave) <b>(Mac = Option/Alt + `, RELEASE, THEN letter)</b><br />
+                        â/ê/î/ô/û – the circumflex (l'accent circonflexe) <b>(Mac = Option + I, RELEASE, THEN letter)</b><br />
+                        ç – the cedilla (la cédille) <b>(Mac = Option + C)</b><br />
+                        ë/ï/ü – the trema (l'accent tréma) <b>(Mac = Option + U, RELEASE, THEN letter)</b><br />
+                        œ -e dans l'o <b>(Mac = Option/Alt + Q)</b><br /><br />
 
-                    Windows are way behind on this and there are no keyboard shortcuts available on my machine. Therefore I recommend copying and paste'ing from the charchters above.<br />
-                    </p>
-                    <button onClick={this.handleCloseClick}>Close</button>
+                        Windows are way behind on this and there are no keyboard shortcuts available on my machine. Therefore I recommend copying and paste'ing from the charchters above.<br />
+                        </p>
+                        <button onClick={this.handleCloseClick}>Close</button>
                     </div>
                 </div>
                 )}
             </div>
 
-            <div className='f4'>
+            <div className='f4 progress-box'>
                 <div className='bordered-content'>
                     <h5><b>Your progress:</b></h5>
                     <h6><b>Total Answered = {totalAttempts}</b></h6>
