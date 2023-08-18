@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
+import vocabulary2 from '../FrenchVocabularyGame/Vocabulary2.js';
 import './Filter.css';
 
 class Filter extends Component {
@@ -40,27 +41,31 @@ shuffleArray = (array) => {
 
 // From the filters selected, make a custom list 
 createCustomList = () => {
-    const { selectedTypes, selectedNumberOfWords } = this.state;
-
-    // HERE ADD FILTER FOR DIFFICULTY
+    const { selectedTypes, selectedNumberOfWords, selectedDifficulty } = this.state;
  
     // First randomise the words from the (filter 1)
-    const filteredData1 = this.shuffleArray(vocabulary);
-    console.log('filteredData1', filteredData1);
+    const filteredData1 = this.shuffleArray(vocabulary2);
+    // console.log('filteredData1', filteredData1);
 
     // Filter the words to only include the types that the user wants (filter 2)
     const filteredData2 = filteredData1.filter(item => selectedTypes.includes(item.type));
-    console.log('filteredData2', filteredData2);
+    // console.log('filteredData2', filteredData2);
+
+    // Filter for difficulty level
+    console.log(selectedDifficulty)
+    const filteredData3 = filteredData2.filter(item => selectedDifficulty.includes(item.difficulty));
+    // console.log('filteredData3', filteredData3);
 
     // Filter the words to only be the length that the user wants (filter 3)
-    const filteredData3 = filteredData2.slice(0, selectedNumberOfWords);
-    console.log('filteredData3', filteredData3);
+    const filteredData4 = filteredData3.slice(0, selectedNumberOfWords);
+    // console.log('filteredData4', filteredData4);
+
     
 
     // filteredData3 is now the user-customised and randomised list 
-    if (filteredData3.length > 0) {
+    if (filteredData4.length > 0) {
       const { onUpdateState } = this.props;
-      onUpdateState(filteredData3);
+      onUpdateState(filteredData4);
       this.setState({ readiness: 'ready' })
     } else {
       this.setState({ readiness: 'not ready' })
@@ -177,9 +182,10 @@ handleDifficultyChange = (event) => {
                     <option disabled value="">
                       --Select Difficulty--
                     </option>
-                    <option value="B">Beginner</option>
-                    <option value="I" disabled>Intermediate (coming soon)</option>
-                    <option value="A" disabled>Advanced (coming soon)</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced-1">Advanced 1</option>
+                    <option value="advanced-2" disabled>Advanced 2 (coming soon)</option>
                   </select>
               </div>
               <div className='btn'>
