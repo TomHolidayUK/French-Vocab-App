@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
 import vocabulary2 from '../FrenchVocabularyGame/Vocabulary2.js';
 import './Filter.css';
+import demoImage from './demo.png';
 
 class Filter extends Component {
   constructor(props) {
@@ -13,23 +14,34 @@ class Filter extends Component {
       selectedDifficulty: '',
       readiness: '',
       data: [],
+      showPopup: false
     };
   }
+
  
-//  handleFileUpload = (e) => {
-//   console.log(e)
-//     const reader = new FileReader();
-//     reader.readAsBinaryString(e.target.files[0]);
-//     reader.onload = (e) => {
-//       const data = e.target.result;
-//       const workbook = XLSX.read(data, { type: "binary" });
-//       const sheetName = workbook.SheetNames[0];
-//       const sheet = workbook.Sheets[sheetName];
-//       const parsedData = XLSX.utils.sheet_to_json(sheet);
-//       console.log(parsedData)
-//       this.setState({ data: parsedData });
-//     };
-//   }
+ handleFileUpload = (e) => {
+    console.log(e)
+    const XLSX = require('xlsx');
+    const reader = new FileReader();
+    reader.readAsBinaryString(e.target.files[0]);
+    reader.onload = (e) => {
+      const data = e.target.result;
+      const workbook = XLSX.read(data, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const parsedData = XLSX.utils.sheet_to_json(sheet);
+      console.log('parsed data', parsedData)
+      this.setState({ data: parsedData });
+    };
+  }
+
+  handlePopupClickFilter = () => {
+    this.setState({ showPopup: true });
+  };
+
+  handleCloseClick = () => {
+    this.setState({ showPopup: false });
+  };
 
 shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -40,12 +52,12 @@ shuffleArray = (array) => {
 }
 
 // From the filters selected, make a custom list 
-createCustomList = () => {
+createCustomList = (input) => {
     const { selectedTypes, selectedNumberOfWords, selectedDifficulty } = this.state;
- 
+    console.log('input', input)
     // First randomise the words from the (filter 1)
-    const filteredData1 = this.shuffleArray(vocabulary2);
-    // console.log('filteredData1', filteredData1);
+    const filteredData1 = this.shuffleArray(input);
+    console.log('filteredData1', filteredData1);
 
     // Filter the words to only include the types that the user wants (filter 2)
     const filteredData2 = filteredData1.filter(item => selectedTypes.includes(item.type));
@@ -58,9 +70,7 @@ createCustomList = () => {
 
     // Filter the words to only be the length that the user wants (filter 3)
     const filteredData4 = filteredData3.slice(0, selectedNumberOfWords);
-    // console.log('filteredData4', filteredData4);
-
-    
+    console.log('filteredData4', filteredData4);
 
     // filteredData3 is now the user-customised and randomised list 
     if (filteredData4.length > 0) {
@@ -70,8 +80,24 @@ createCustomList = () => {
     } else {
       this.setState({ readiness: 'not ready' })
     }
+};
 
-    };
+// Create a list for when the user uploads their own words
+createCustomListUpload = () => {
+  const { selectedTypes, selectedNumberOfWords, selectedDifficulty, data } = this.state;
+  // First randomise the words from the (filter 1)
+  const filteredData1 = this.shuffleArray(data);
+  console.log('filteredData1', filteredData1);
+
+  if (filteredData1.length > 0) {
+    const { onUpdateState } = this.props;
+    onUpdateState(filteredData1);
+    this.setState({ readiness: 'ready' })
+  } else {
+    this.setState({ readiness: 'not ready' })
+  }
+
+  };
 
 handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -118,7 +144,7 @@ handleDifficultyChange = (event) => {
 };
 
   render() {
-    const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue } = this.state;
+    const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue, showPopup } = this.state;
     const { name } = this.props;
     return (
       <div className="background-image2">
@@ -189,16 +215,35 @@ handleDifficultyChange = (event) => {
                   </select>
               </div>
               <div className='btn'>
-                <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList}>Generate List and Begin!</button>
+                {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList(vocabulary2)}>Generate List and Begin!</button> */}
+                <button className='grow pv1 white mb2 f4 br3 mh2 link dib bg-blue' onClick={this.createCustomList.bind(this, vocabulary2)}>Generate List and Begin!</button>
                 {(readiness === 'ready') && (<div>Your words are ready!</div>)}
                 {(readiness === 'not ready') && (<h5>You haven't inputted sufficient details to setup the game!</h5>)}
               </div>
-              {/* <div>
-              <input 
-                type="file" 
-                accept=".xlsx, .xls" 
-                onChange={this.handleFileUpload} />
-              </div> */}
+              <div className="upload-list">
+              <h6>(If you want to upload your own words to learn, <b className="clickable-element2" onClick={this.handlePopupClickFilter}>click here</b>)</h6>
+              <div>
+                {showPopup && (
+                <div className="overlay">
+                  <div className="popup">
+                    <h2>How to upload you're own words</h2>
+                    <p>First you need to create an excel file with all your vocabulary</p>
+                    <p>The first column should have your English words with the first row 'English', the second column should have your French words with the rown row 'French', the words don'rt need to be in French they can be in any language but the first row needs to say 'French'</p>
+                    <p>It should look like this:</p>
+                    <img src={demoImage} alt="A sample image"></img>
+                    <p>Then upload it here:</p>
+                    <input 
+                      type="file" 
+                      accept=".xlsx, .xls" 
+                      onChange={this.handleFileUpload} />
+                    {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList.bind(this, data)}>Generate List and Begin!</button> */}
+                    <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomListUpload}>Generate List and Begin!</button>
+                    <button onClick={this.handleCloseClick}>Close</button>
+                </div>
+                </div>
+                )}
+              </div>
+            </div>
             </div>
           </div>
         </div>
