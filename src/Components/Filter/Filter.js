@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
-import vocabulary2 from '../FrenchVocabularyGame/Vocabulary2.js';
 import './Filter.css';
 import demoImage from './demo.png';
 
@@ -84,7 +83,7 @@ createCustomList = (input) => {
 
 // Create a list for when the user uploads their own words
 createCustomListUpload = () => {
-  const { selectedTypes, selectedNumberOfWords, selectedDifficulty, data } = this.state;
+  const { data } = this.state;
   // First randomise the words from the (filter 1)
   const filteredData1 = this.shuffleArray(data);
   console.log('filteredData1', filteredData1);
@@ -118,7 +117,6 @@ handleCheckboxChange = (event) => {
 
   handleSelectAllChange = (event) => {
     const { checked } = event.target;
-    const { selectedTypes } = this.state;
 
     if (checked) {
       this.setState({
@@ -144,7 +142,7 @@ handleDifficultyChange = (event) => {
 };
 
   render() {
-    const { selectedTypes, readiness, selectedNumberOfWords, selectAllChecked, customList, data, sliderValue, showPopup } = this.state;
+    const { selectedTypes, readiness,  selectAllChecked, showPopup } = this.state;
     const { name } = this.props;
     return (
       <div className="background-image2">
@@ -215,8 +213,8 @@ handleDifficultyChange = (event) => {
                   </select>
               </div>
               <div className='btn'>
-                {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList(vocabulary2)}>Generate List and Begin!</button> */}
-                <button className='grow pv1 white mb2 f4 br3 mh2 link dib bg-blue' onClick={this.createCustomList.bind(this, vocabulary2)}>Generate List and Begin!</button>
+                {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList(vocabulary)}>Generate List and Begin!</button> */}
+                <button className='grow pv1 white mb2 f4 br3 mh2 link dib bg-blue' onClick={this.createCustomList.bind(this, vocabulary)}>Generate List and Begin!</button>
                 {(readiness === 'ready') && (<div>Your words are ready!</div>)}
                 {(readiness === 'not ready') && (<h5>You haven't inputted sufficient details to setup the game!</h5>)}
               </div>
@@ -228,10 +226,10 @@ handleDifficultyChange = (event) => {
                   <div className="popup">
                     <h2>How to upload you're own words</h2>
                     <p>First you need to create an excel file with all your vocabulary</p>
-                    <p>The first column should have your English words with the first row 'English', the second column should have your French words with the rown row 'French', the words don'rt need to be in French they can be in any language but the first row needs to say 'French'</p>
+                    <p>The first column should have your English words with the first row name 'English', the second column should have your French words with the row name 'French'.</p>
                     <p>It should look like this:</p>
-                    <img src={demoImage} alt="A sample image"></img>
-                    <p>Then upload it here:</p>
+                    <img src={demoImage} alt="Demonstration"></img>
+                    <p>Then upload it to here:</p>
                     <input 
                       type="file" 
                       accept=".xlsx, .xls" 

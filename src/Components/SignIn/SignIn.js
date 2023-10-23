@@ -107,14 +107,22 @@ class SignIn extends Component {
                                     </div>
                                     <div className="mv3">
                                         <label className="db fw6 lh-copy white f5" htmlFor="password">Password</label>
-                                        <form>
+                                        <form >
                                             <input 
-                                            className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                            type="password" 
-                                            name="password"  
-                                            id="password" 
-                                            onChange={this.onPasswordChange}
-                                            onKeyDown={this.handleKeyPress}
+                                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                                type="text"
+                                                name="username"
+                                                id="username"
+                                                style={{ display: 'none' }} 
+                                            />
+                                            <input
+                                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                                type="password"
+                                                name="password"
+                                                id="password"
+                                                onChange={this.onPasswordChange}
+                                                onKeyDown={this.handleKeyPress}
+                                                autocomplete="new-password"
                                             />
                                         </form>
                                     </div>
@@ -128,7 +136,7 @@ class SignIn extends Component {
                                     value="Sign in" />
                                 </div>
                                 {/* If Password is incorrect, show error message */}
-                                {(this.state.passwordState === false)? 
+                                {(this.state.passwordState === false) ? 
                                     <motion.p className="b ph3" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>You have entered incorrect login details, please try again</motion.p>
                                     :
                                     null
@@ -145,6 +153,7 @@ class SignIn extends Component {
                             </div>
                         </main>
                     </article>
+                    
                 </div>
             </div>
         );

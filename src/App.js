@@ -3,7 +3,6 @@ import React from 'react';
 import Filter from './Components/Filter/Filter';
 import SignIn from './Components/SignIn/SignIn';
 import Register from './Components/Register/Register';
-import ParticlesBg from "particles-bg";
 import FrenchVocabularyGame from './Components/FrenchVocabularyGame/FrenchVocabularyGame';
 
 

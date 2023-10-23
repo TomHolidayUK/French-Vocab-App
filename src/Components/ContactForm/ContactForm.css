@@ -1,0 +1,60 @@
+
+
+-----------------------------------------
+
+.form-container {
+    width: 50vw;
+}
+
+.form {
+    /* border: 3px solid black; */
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    
+    justify-content: center; 
+   align-items: center;
+}
+
+.form .text-input-small {
+    height: 35px;
+    width: 100%;
+    /* padding: 2px 5px 0 0; */
+    
+}
+
+.input-containers {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    /* text-align: center; */
+    /* border: 1px solid black; */
+}
+
+.form textarea {
+    width: 100%;
+    resize: none;
+    height: 10vh;
+    padding: 7.5px 7.5px;
+    /* margin: 5px 0 0 0; */
+    /* text-align: center; */
+}
+
+/* .test {
+    border: 1px solid black;
+} */
+
+.button-3 {
+    display: flex;
+    padding: 0 20px 0 20px;
+    margin: 20px 0 20px 0;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    border: 5px solid black;
+}
+
+.form-container h6 {
+    margin: 0 0 10px 0;
+}

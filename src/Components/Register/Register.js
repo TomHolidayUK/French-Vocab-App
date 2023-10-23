@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Register.css';
+import { motion } from "framer-motion";
 
 class Register extends Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class Register extends Component {
         this.state = {
             Email: '',
             Password: '',
-            Name: ''
+            Name: '',
+            ClickStatus: false
         }
     }
 
@@ -23,7 +25,13 @@ class Register extends Component {
         this.setState({Name: event.target.value})
     }
 
+    handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+        this.onSubmitRegister()};
+    };
+
     onSubmitRegister = () => {
+        this.setState({ClickStatus: true})
         // fetch('http://localhost:3000/register', {
         //    fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/register', {
             fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/register', {
@@ -43,11 +51,6 @@ class Register extends Component {
                 }
             })
       };
-
-    handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-    this.onSubmitRegister()};
-    };
 
 
     render() {
@@ -75,6 +78,7 @@ class Register extends Component {
                                         name="name"  
                                         id="name" 
                                         onChange={this.onNameChange}
+                                        onKeyDown={this.handleKeyPress}
                                         // onKeyDown={this.handleKeyPress}
                                         style={{ border: '1px solid white' }}
                                         />
@@ -87,21 +91,31 @@ class Register extends Component {
                                         name="email-address"  
                                         id="email-address" 
                                         onChange={this.onEmailChange}
+                                        onKeyDown={this.handleKeyPress}
                                         // onKeyDown={this.handleKeyPress}
                                         style={{ border: '1px solid white' }}
                                         />
                                     </div>
                                     <div className="mv3">
                                         <label className="db fw6 lh-copy f5" htmlFor="password">Password</label>
-                                        <form>
+                                        <form >
                                             <input 
-                                            className="b pa2 input-reset ba bg-transparent hover-bg-white hover-white w-100" 
-                                            type="password" 
-                                            name="password"  
-                                            id="password" 
-                                            onChange={this.onPasswordChange}
-                                            onKeyDown={this.handleKeyPress}
-                                            style={{ border: '1px solid white' }}
+                                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                                type="text"
+                                                name="username"
+                                                id="username"
+                                                style={{ display: 'none', border: '1px solid white' }} 
+                                                autocomplete="new-password"
+                                          />
+                                            <input
+                                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                                                type="password"
+                                                name="password"
+                                                id="password"
+                                                onChange={this.onPasswordChange}
+                                                onKeyDown={this.handleKeyPress}
+                                                autocomplete="new-password"
+                                                style={{ border: '1px solid white' }}
                                             />
                                         </form>
                                     </div>
@@ -113,6 +127,11 @@ class Register extends Component {
                                     type="submit" 
                                     value="Register" />
                                 </div>
+                                {(this.state.ClickStatus === true) && (this.state.Email === '' || this.state.Password === '' || this.state.Name === '') ? 
+                                    <motion.p className="b ph3" animate={{ y: 5, scale: 1}} initial={{ scale:0}}>You have entered incorrect login details, please try again</motion.p>
+                                    :
+                                    null
+                                }
                             </div>
                         </main>
                     </article>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './FrenchVocabularyGame.css';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
+import ContactForm from '../ContactForm/ContactForm.js';
 
 
 class FrenchVocabularyGame extends Component {
@@ -20,7 +21,10 @@ class FrenchVocabularyGame extends Component {
       stage: 'no results', // show results or not
       difficultMode: false,
       hint: '',
-      showPopup: false
+      showPopup: false,
+      showPopup2: false,
+      initialLength: 0,
+      specialWarning: false
     };
   }
 
@@ -33,6 +37,14 @@ class FrenchVocabularyGame extends Component {
     this.setState({ showPopup: false });
   };
 
+  handlePopup2Click = () => {
+    this.setState({ showPopup2: true });
+  };
+
+  handleClose2Click = () => {
+    this.setState({ showPopup2: false });
+  };
+
 // This selects the current words from the database by changing the current state to them 
 selectWord = (totalAttempts) => {
     const { customList } = this.props;
@@ -42,7 +54,8 @@ selectWord = (totalAttempts) => {
     if (customList && customList.length > this.state.totalAttempts) {
         const selectedWord = customList[this.state.totalAttempts];
         // console.log('custom list in FrenchVocabularyGame.js 2', this.props.customList)
-        console.log('add this to db')
+        console.log('add this to db !!!')
+        this.setState({ specialWarning: false });
     this.setState({
         currentWordEnglish: selectedWord.English,
         currentWordFrench: selectedWord.French,
@@ -71,8 +84,38 @@ if (difficultMode === true) {
     const removeDiacriticalMarks = (str) => {
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       };
+
+
+    const specialCharacters = ["é", "à", "è", "ì", "ò", "ù", "â", "ê", "î", "ô", "û", "ë", "ï", "ü", "ç", "œ"];
+
+    function containsSpecialCharacters(inputString, characterArray) {
+        // Convert the input string to an array of characters
+        const inputCharacters = inputString.split('');
+    
+        // Use a loop or array methods to check for special charachters
+        for (const char of inputCharacters) {
+        if (characterArray.includes(char)) {
+            return true; 
+        }
+        }
+        return false; 
+    }
+    
+    
+    const hasSpecial = containsSpecialCharacters(currentWordFrench, specialCharacters);
+    
+    if (hasSpecial) {
+        console.log("The string contains special characters.");
+        if (userInput.trim().toLowerCase() !== currentWordFrench.toLowerCase()) {
+            this.setState({ specialWarning: true });
+        }
+    } else {
+        this.setState({ specialWarning: false });
+    }
+
     isCorrect =
     removeDiacriticalMarks(userInput.trim().toLowerCase()) === removeDiacriticalMarks(currentWordFrench.toLowerCase());
+    // isCorrect = userInput.trim().toLowerCase() === removeDiacriticalMarks(currentWordFrench.toLowerCase());
 }
 
 this.setState({ isCorrect });
@@ -123,6 +166,8 @@ this.selectWord();
 componentDidMount() {
 this.selectWord(); // Select a word when the component mounts 
 // this.setState({ totalAttempts: 0 })
+const initialLength = this.props.customList.length;
+this.setState({ initialLength: initialLength })
 }
 
 // Method to handle the user pressing 'enter'
@@ -167,7 +212,6 @@ restart = () => {
             currentWordFrench: this.props.customList[0].French,
             userInput: '',
             isCorrect: null,
-            totalAttempts: 0,
             correctAnswers: 0,
             incorrectAnswers: 0})
     }
@@ -184,9 +228,16 @@ hint = () => {
       }
 
     function convertToUnderscores(inputString) {
-        const finalHint = inputString.replace(/[^ ]/g, '_');
-        return finalHint;
-      }
+    if (inputString.length <= 1) {
+        return inputString; 
+    }
+    
+    const firstChar = inputString[0]; 
+    const remainingChars = inputString.slice(1); 
+    
+    const finalHint = firstChar + remainingChars.replace(/[^ ]/g, '_');
+    return finalHint;
+    }
 
     const stringWithSpaces = addSpaceBetweenCharacters(this.state.currentWordFrench);
     const convertedString = convertToUnderscores(stringWithSpaces);
@@ -197,7 +248,7 @@ hint = () => {
  
 
   render() {
-    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup} = this.state;
+    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup, showPopup2, initialLength, specialWarning} = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="background-image3" style={{ whiteSpace: 'pre' }}> 
@@ -210,7 +261,8 @@ hint = () => {
                 </nav>
             <div className="middle-content">
                 <h2>French Vocabulary Game</h2>
-                {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />}
+                {/* {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />} */}
+                {(correctAnswers > 0) && <ProgressBar completed={parseFloat((correctAnswers/(initialLength)*100).toFixed(2))} />}
                 <h5>Translate the following:</h5>
                 <motion.p
                     key={currentWordEnglish} // Add the key prop here
@@ -227,20 +279,28 @@ hint = () => {
                 placeholder='Type here...'
                 onKeyDown={this.handleKeyPress}/>
                 {isCorrect !== null && (
-                <div className='pv1'>{isCorrect ? 'Correct!' : <p>Incorrect! The correct answer is: <b>{currentWordFrench}</b></p>}
-                    <div class="centered-container">
-                        <div class="flex-container">
-                            <h6 className="border-right"><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank">Examples and Context</a></h6>
-                            <h6><a className="clickable-element underline" onClick={this.Pronunciation}>Pronunciation</a></h6>
+                <div className='pv1'>{isCorrect ? <h5>Correct!{ specialWarning && (
+                    <div>
+                        <h6 className="pb1 wide-text">(Be careful with spelling. Correction: {currentWordFrench})</h6>
+                    </div>
+                ) }</h5> : <h5>Incorrect! The correct answer is: {currentWordFrench}</h5>}
+                    <div className="centered-container">
+                        <div className="flex-container">
+                            <h6 className="border-right"><a href={`https://context.reverso.net/translation/french-english/${currentWordFrench}`} target="_blank" rel="noreferrer">Examples and Context</a></h6>
+                            <h6 className="clickable-element underline color-change" onClick={this.Pronunciation}>Pronunciation</h6>
                             {(currentWordType === 'verb') && 
-                                <h6 className="border-left"><a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank">Verb Conjugations</a></h6>
+                                <h6 className="border-left"><a href={`https://conjugator.reverso.net/conjugation-french-verb-${currentWordFrench}.html`} target="_blank" rel="noreferrer">Verb Conjugations</a></h6>
                             }
                         </div>
                     </div>  
                 </div>
                 )}
             </div>
-
+            {/* { specialWarning && (
+                <div>
+                    <h6 className="pb1 wide-text">Note - Be aware of special charachters</h6>
+                </div>
+            ) } */}
             {(totalAttempts !== (this.props.customList.length)) ?
             <div className="bottom-info" >
                 <div className="buttons">
@@ -258,7 +318,9 @@ hint = () => {
                     </div>
                     <b>Difficult Mode</b>
                 </div>
-                <h6 className="pb1 wide-text">(In Difficult Mode you need to include all special charachters, for info on how to type special charachters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
+                <div className="prevent-overflow">
+                    <h6 className="pb1 wide-text">(In Difficult Mode you need to include all special charachters, for info on how to type special charachters in French, <b className="clickable-element" onClick={this.handlePopupClick}>click here</b>)</h6>
+                </div>
                 <div>
                     {showPopup && (
                     <div className="overlay">
@@ -313,7 +375,17 @@ hint = () => {
             </div>
             }
 
-
+            <div className="pb1 wide-text suggestions-box">Have suggestions on how to improve the site? <b className="clickable-element" onClick={this.handlePopup2Click}>Click Here</b></div>
+                <div>
+                    {showPopup2 && (
+                    <div className="overlay">
+                        <div className="popup">
+                        <ContactForm/>
+                            <button onClick={this.handleClose2Click}>Close</button>
+                        </div>
+                    </div>
+                    )}
+                </div>  
             {/* <p>**There are five accent marks in French, and each of them can significantly impact the way you pronounce French words. Therefore enter words correctly WITH ACCENTS**</p>
             <p>é – the acute accent (l'accent aigu)<br />à/è/ì/ò/ù – the grave accent (l'accent grave)<br />â/ê/î/ô/û – the circumflex (l'accent circonflexe)<br />ç – the cedilla (la cédille)<br />ë/ï/ü – the trema (l'accent tréma)</p>
             <b>Functions to add:<br />Sort order - don't have 2 words in a row<br />Have levels<br />Display statistics<br />Make spelling allowances especially for incorrect accents and capital letters<br />Style well with nice background<br />Add pictures<br />Animation when new word appears</b> */}
