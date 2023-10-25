@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { motion } from "framer-motion";
 import './SignIn.css';
-import videoBg from '../../Assets/video3.mp4'
 
 class SignIn extends Component {
     constructor(props) {
@@ -72,7 +71,7 @@ class SignIn extends Component {
             // <div className="background-image">
             <div className="all-content">
             <div className='mainvideo'> 
-                <video src={videoBg} autoPlay loop muted/>
+                <video src={'https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Assets/video3.mp4'} autoPlay loop muted/>
             </div>
                 {/* <div className="overlay"></div> */}
                 {/* <video src={videoBg} autoPlay loop muted/> */}
