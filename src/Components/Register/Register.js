@@ -58,7 +58,7 @@ class Register extends Component {
             <div className="background-image4">
                 <nav className="header">
                     <div className="sign-out">
-                        <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim white underline pointer'>Sign Out</p>
+                        <p onClick={() => this.props.onRouteChange('signout')} className='f4 link dim white underline pointer'>Sign In</p>
                     </div>
                 </nav>
                 <h2 className="white pt5">Register for free to learn French Vocabulary</h2>

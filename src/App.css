@@ -3,6 +3,9 @@
   /* position: relative; */
   /* display: flex;
   align-items: center; */
+  /* overflow-y: scroll; */
+  /* border: 1px solid black; */
+  /* overflow-x: hidden; */
 }
 
 body {
@@ -25,7 +28,7 @@ body {
   /* height: 100vh; 
   width: 100vw; */
   width: 100%;
-  height: 100vh;
+  height: 95vh;
 }
 
 /* .container {
@@ -56,6 +59,7 @@ body {
   padding: 0 1%;
   justify-content: space-between;
   background-color: rgba(252, 252, 252, 0.75);
+  /* border: 1px solid black */
 }
 
 
@@ -63,6 +67,14 @@ body {
 @media (max-width: 767px) {
 
   .footer-middle {
+    display: none;
+  }
+
+}
+
+@media (max-width: 350px) {
+
+  .footer {
     display: none;
   }
 

@@ -70,20 +70,24 @@ class SignIn extends Component {
     render() {
         return(
             // <div className="background-image">
+            <div className="all-content">
             <div className='mainvideo'> 
-                {/* <div className="overlay"></div> */}
                 <video src={videoBg} autoPlay loop muted/>
+            </div>
+                {/* <div className="overlay"></div> */}
+                {/* <video src={videoBg} autoPlay loop muted/> */}
                 <div className="content">
                     <h3 className="opening-text">Welcome to the best place to learn French Vocabulary!</h3>
-                    <h4 className="opening-text-2">Learn words from our extensive database of vocabulary using a language learning algorithm</h4>
-                    <h4 className="opening-text-3">Sign in if you've been here before or if it's your first time, register an account with us!</h4>
+                    {/* <p>--------</p> */}
+                    <h5 className="opening-text-2">Learn words from our extensive database of vocabulary using a language learning algorithm</h5>
+                    {/* <h4 className="opening-text-3">Sign in if you've been here before or if it's your first time, register an account with us!</h4> */}
                     {/* <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center"> */}
                     <article className="sign-in-box br3 ba dark-gray b--white-20 mv4 w-100 w-50-m w-25-l mw6 shadow-15 center">
                         {/* <div className="overlay"></div> */}
-                        <main className="pa3 black-80">
+                        <main className="main-sign-in-box pa3 black-80">
                             <div className="measure">
                                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                                    <legend className="f1 fw4 white ph0 mh0">Sign In</legend>
+                                    <legend className="f2 fw4 white ph0 mh0">Sign In</legend>
                                     {/* <div className="mt3">
                                         <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                                         <input 
@@ -155,6 +159,7 @@ class SignIn extends Component {
                     </article>
                     
                 </div>
+            {/* </div> */}
             </div>
         );
     }
