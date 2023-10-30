@@ -117,6 +117,7 @@ class SignIn extends Component {
                                                 name="username"
                                                 id="username"
                                                 style={{ display: 'none' }} 
+                                                autoComplete="username"
                                             />
                                             <input
                                                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -125,7 +126,7 @@ class SignIn extends Component {
                                                 id="password"
                                                 onChange={this.onPasswordChange}
                                                 onKeyDown={this.handleKeyPress}
-                                                autocomplete="new-password"
+                                                autoComplete="new-password"
                                             />
                                         </form>
                                     </div>
