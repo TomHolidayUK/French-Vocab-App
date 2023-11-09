@@ -214,7 +214,7 @@ handleDifficultyChange = (event) => {
               </div>
               <div className='btn'>
                 {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList(vocabulary)}>Generate List and Begin!</button> */}
-                <button className='grow pv1 white mb2 f4 br3 mh2 link dib bg-blue' onClick={this.createCustomList.bind(this, vocabulary)}>Generate List and Begin!</button>
+                <button className='grow pv1 white mb2 f4 br3 mh2 link dib' onClick={this.createCustomList.bind(this, vocabulary)}>Generate List and Begin!</button>
                 {(readiness === 'ready') && (<div>Your words are ready!</div>)}
                 {(readiness === 'not ready') && (<h5>You haven't inputted sufficient details to setup the game!</h5>)}
               </div>
@@ -235,7 +235,7 @@ handleDifficultyChange = (event) => {
                       accept=".xlsx, .xls" 
                       onChange={this.handleFileUpload} />
                     {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList.bind(this, data)}>Generate List and Begin!</button> */}
-                    <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomListUpload}>Generate List and Begin!</button>
+                    <button className='grow pv1 white mv3 f4 br3 mh2 link dib' onClick={this.createCustomListUpload}>Generate List and Begin!</button>
                     <button onClick={this.handleCloseClick}>Close</button>
                 </div>
                 </div>

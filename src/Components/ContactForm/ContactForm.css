@@ -10,10 +10,10 @@
     /* border: 3px solid black; */
     display: flex;
     flex-direction: column;
-    padding: 0 20px;
+    padding: 0 30px;
     
     justify-content: center; 
-   align-items: center;
+    align-items: center;
 }
 
 .form .text-input-small {
@@ -57,4 +57,10 @@
 
 .form-container h6 {
     margin: 0 0 10px 0;
+}
+
+.form-container h6 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
 }

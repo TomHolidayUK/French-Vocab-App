@@ -3,6 +3,7 @@ import './FrenchVocabularyGame.css';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { motion } from "framer-motion";
 import ContactForm from '../ContactForm/ContactForm.js';
+import ChatBot from '../ChatBot/ChatBot.js';
 
 
 class FrenchVocabularyGame extends Component {
@@ -24,7 +25,8 @@ class FrenchVocabularyGame extends Component {
       showPopup: false,
       showPopup2: false,
       initialLength: 0,
-      specialWarning: false
+      ShowGPT: false,
+      ShowContact: false,
     };
   }
 
@@ -72,6 +74,7 @@ selectWord = (totalAttempts) => {
 handleUserInput = (event) => {
 this.setState({ userInput: event.target.value });
 };
+
 
 // Method to check user answer
 checkAnswer = () => {
@@ -185,6 +188,13 @@ handleToggle = () => {
     this.setState((prevState) => ({ difficultMode: !prevState.difficultMode }));
   };
 
+handleGPTToggle = () => {
+    this.setState((prevState) => ({ ShowGPT: !prevState.ShowGPT }));
+}
+
+handleContactToggle = () => {
+    this.setState((prevState) => ({ ShowContact: !prevState.ShowContact }));
+}
 
 Pronunciation = async () => {
     const textToSynthesize = this.state.currentWordFrench;
@@ -248,7 +258,7 @@ hint = () => {
  
 
   render() {
-    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup, showPopup2, initialLength, specialWarning} = this.state;
+    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, totalAttempts, correctAnswers, incorrectAnswers, difficultMode, hint, showPopup, showPopup2, initialLength, specialWarning, ShowContact, ShowGPT, } = this.state;
     // console.log('custom list in FrenchVocabularyGame.js', this.props.customList)
     return (
         <div className="background-image3" style={{ whiteSpace: 'pre' }}> 
@@ -304,10 +314,10 @@ hint = () => {
             {(totalAttempts !== (this.props.customList.length)) ?
             <div className="bottom-info" >
                 <div className="buttons">
-                    <button className='grow br2 mh1 link dib bg-light-purple' onClick={this.hint}>Hint</button>
-                    <button className='center-button grow br2 mh1 link dib bg-light-purple' onClick={this.checkAnswer}>Check Answer</button>
-                    <button className='center-button grow br2 mh1 link dib bg-light-purple' onClick={this.nextWord}>Next Word</button>
-                    <button className='grow br2 mh1 link dib bg-light-purple' onClick={this.restart}>Restart</button>
+                    <button className='grow br2 mh1 link dib' onClick={this.hint}>Hint</button>
+                    <button className='center-button grow br2 mh1 link dib bg-orange' onClick={this.checkAnswer}>Check Answer</button>
+                    <button className='center-button grow br2 mh1 link dib bg-orange' onClick={this.nextWord}>Next Word</button>
+                    <button className='grow br2 mh1 link dib bg-orange' onClick={this.restart}>Restart</button>
                 </div>
                 {/* <p>*Use the buttons or use the 'Enter' key*</p> */}
                 <div className="toggle-container pv2 ph3">
@@ -326,7 +336,7 @@ hint = () => {
                     <div className="overlay">
                         <div className="popup">
                             <h2>French Special Charachters</h2>
-                            <p>
+                            <p className="prevent-overflow2">
                             é – the acute accent (l'accent aigu) <b>(Mac - Option/Alt + E, RELEASE, THEN E)</b><br />
                             à/è/ì/ò/ù – the grave accent (l'accent grave) <b>(Mac = Option/Alt + `, RELEASE, THEN letter)</b><br />
                             â/ê/î/ô/û – the circumflex (l'accent circonflexe) <b>(Mac = Option + I, RELEASE, THEN letter)</b><br />
@@ -356,7 +366,7 @@ hint = () => {
             <div>
                 <motion.p
                     key={<h3>Congratulations, You have completed the level!</h3>}
-                    className="b f4"
+                    className="b f4 prevent-overflow"
                     animate={{ scale: 1 }}
                     initial={{ scale: 0 }}>
                     <h3>Congratulations, You have completed the level!</h3>
@@ -375,7 +385,40 @@ hint = () => {
             </div>
             }
 
-            <div className="pb1 wide-text suggestions-box">Have suggestions on how to improve the site? <b className="clickable-element" onClick={this.handlePopup2Click}>Click Here</b></div>
+
+            <div className="pop-up-navigation-container">
+                {/* <h2>Extra Features</h2> */}
+                <div className="GPT-navigation-container">
+                     {!ShowGPT && ( 
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/ChatGPT-Logo.png" className="chatGPT-img clickable-element" alt="whatever" onClick={this.handleGPTToggle} />)
+                    }
+                </div>
+                <div className="Contact-navigation-container">
+                     {!ShowContact && ( 
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/mail3.png" className="contact-img clickable-element" alt="whatever" onClick={this.handleContactToggle} />)
+                    }
+                </div>
+            </div>
+
+            {ShowGPT && (
+            <div className="">
+                <div className="">
+                    <ChatBot close={this.handleGPTToggle}/>
+                </div>
+            </div>
+            )}
+
+            {ShowContact && (
+            <div>
+            <div className="overlay">
+                        <div className="popup">
+                        <ContactForm/>
+                            <button onClick={this.handleContactToggle}>Close</button>
+                        </div>
+                    </div>
+            </div>)}
+
+            {/* <div className="pb1 wide-text suggestions-box prevent-overflow"></div> */}
                 <div>
                     {showPopup2 && (
                     <div className="overlay">

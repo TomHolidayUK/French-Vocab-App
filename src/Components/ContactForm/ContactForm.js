@@ -35,6 +35,7 @@ class ContactForm extends React.Component {
     return (
     <div className="form-container">
       <h2>Contact Form</h2>
+      <h6>Have suggestions on how to improve the website? Contact the site admin here</h6>
       {/* <p>Feel free to write your honest opinions and send them to the web developer here</p> */}
       <form className="form" ref={this.form} onSubmit={this.sendEmail}>
         <div className="input-containers">

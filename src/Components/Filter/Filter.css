@@ -24,6 +24,10 @@
     align-items: center;
 }
 
+.all-content button{
+background-color: rgb(255, 136, 0);
+}
+
 .navigation {
   display: 'flex';
   justify-content: 'flex-end';
