@@ -50,7 +50,7 @@ class ContactForm extends React.Component {
           <h6>Your Message</h6>
           <textarea className="text-input-large" name="message" />
         </div>
-        <button className="button-3" type="submit" value="Send">Send</button>
+        <button className="button-3 transform" type="submit" value="Send">Send</button>
       </form>
       {this.state.suggestionSuccess && <h6>Your message has been sent succesfully. Thank you! {this.props.suggestionSuccess}</h6>}
     </div>

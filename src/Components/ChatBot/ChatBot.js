@@ -125,11 +125,11 @@ class ChatBot extends Component {
                                 placeholder="Ask ChatGPT here..."
                                 onKeyDown={this.handleEnterKeyPress}
                                 />
-                            <button className='GPTInputButton' onClick={this.onSubmitGPT}>
+                            <button className='GPTInputButton transform' onClick={this.onSubmitGPT}>
                                 <img className="button-arrow" src='https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/public/Logos/arrow.png' alt="hello"/>
                             </button>
                         </div>
-                        <button className="close-button" onClick={this.props.close}>Close</button>
+                        <button className="close-button transform" onClick={this.props.close}>Close</button>
                     </div>
                 </div>
                 );

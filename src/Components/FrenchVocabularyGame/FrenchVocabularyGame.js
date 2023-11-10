@@ -413,7 +413,7 @@ hint = () => {
             <div className="overlay">
                         <div className="popup">
                         <ContactForm/>
-                            <button onClick={this.handleContactToggle}>Close</button>
+                            <button className="transform" onClick={this.handleContactToggle}>Close</button>
                         </div>
                     </div>
             </div>)}
@@ -424,7 +424,7 @@ hint = () => {
                     <div className="overlay">
                         <div className="popup">
                         <ContactForm/>
-                            <button onClick={this.handleClose2Click}>Close</button>
+                        <button className="transform" onClick={this.handleClose2Click}>Close</button>
                         </div>
                     </div>
                     )}
