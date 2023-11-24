@@ -34,7 +34,6 @@ class Register extends Component {
         this.setState({ClickStatus: true})
         // fetch('http://localhost:3000/register', {
         // fetch('http://localhost:3000/mongoregister', {
-        // fetch('mongodb+srv://tomholiday001:eA0qv1HfBw4lN4mv@frenchvocab-eu-west.83qhryi.mongodb.net/')
         //    fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/register', {
         fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoregister', {
             method: 'post',
