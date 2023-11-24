@@ -27,9 +27,6 @@ class ContactForm extends React.Component {
       this.setState({ suggestionSuccess: true });
   };
 
-  showMessage = () => {
-    
-  }
 
   render() {
     return (

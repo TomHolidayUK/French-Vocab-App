@@ -33,8 +33,10 @@ class Register extends Component {
     onSubmitRegister = () => {
         this.setState({ClickStatus: true})
         // fetch('http://localhost:3000/register', {
+        // fetch('http://localhost:3000/mongoregister', {
+        // fetch('mongodb+srv://tomholiday001:eA0qv1HfBw4lN4mv@frenchvocab-eu-west.83qhryi.mongodb.net/')
         //    fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/register', {
-            fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/register', {
+        fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoregister', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -45,8 +47,10 @@ class Register extends Component {
         })
             .then(response => response.json())
             .then(user => {
-                if (user.id) {
+                if (user._id) {
+                    console.log('test', user)
                     this.props.loadUser(user)
+                    this.props.increaseEntries(user._id);
                     this.props.onRouteChange('setup');
                 }
             })

@@ -36,10 +36,12 @@ class SignIn extends Component {
     onPasswordChange = (event) => {
         this.setState({signInPassword: event.target.value})
     }
-    
+
+  
     onSubmitSignIn = () => {
         // fetch('http://localhost:3000/signin', {
-        fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/signin', {
+        // fetch('http://localhost:3000/mongosignin', {
+        fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongosignin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -49,12 +51,11 @@ class SignIn extends Component {
         })
         .then(response => response.json())
         .then(user => {
-            if(user.id) { 
-            // if(user) {
-            // if(user === 'success') {
+            if(user._id) { 
                 // Does the user exist? Did we receive a user with a property of id?
                 this.props.loadUser(user)
                 this.props.onRouteChange('setup');
+                this.props.increaseEntries(user._id);
                 this.setState({passwordState: true})
             }
             else {

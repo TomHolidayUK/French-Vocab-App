@@ -82,6 +82,10 @@ background-color: rgb(255, 136, 0);
   padding: 3px 0 0 0;
 }
 
+.progressMode-container {
+  background-color: rgba(252, 252, 252, 0.5);
+}
+
 .clickable-element2 {
   cursor: pointer;
   text-decoration: none; /* Remove default underline */

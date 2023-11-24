@@ -18,30 +18,31 @@ class Filter extends Component {
   }
 
  
- handleFileUpload = (e) => {
-    console.log(e)
-    const XLSX = require('xlsx');
-    const reader = new FileReader();
-    reader.readAsBinaryString(e.target.files[0]);
-    reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const parsedData = XLSX.utils.sheet_to_json(sheet);
-      console.log('parsed data', parsedData)
-      this.setState({ data: parsedData });
-    };
-  }
-
-  handlePopupClickFilter = () => {
-    this.setState({ showPopup: true });
+handleFileUpload = (e) => {
+  console.log(e)
+  const XLSX = require('xlsx');
+  const reader = new FileReader();
+  reader.readAsBinaryString(e.target.files[0]);
+  reader.onload = (e) => {
+    const data = e.target.result;
+    const workbook = XLSX.read(data, { type: "binary" });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const parsedData = XLSX.utils.sheet_to_json(sheet);
+    console.log('parsed data', parsedData)
+    this.setState({ data: parsedData });
   };
+}
 
-  handleCloseClick = () => {
-    this.setState({ showPopup: false });
-  };
+handlePopupClickFilter = () => {
+  this.setState({ showPopup: true });
+};
 
+handleCloseClick = () => {
+  this.setState({ showPopup: false });
+};
+
+// Shuffle the array of words to randomise the order
 shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -80,6 +81,7 @@ createCustomList = (input) => {
       this.setState({ readiness: 'not ready' })
     }
 };
+
 
 // Create a list for when the user uploads their own words
 createCustomListUpload = () => {
@@ -141,9 +143,10 @@ handleDifficultyChange = (event) => {
   this.setState({ selectedDifficulty: value });
 };
 
+
   render() {
     const { selectedTypes, readiness,  selectAllChecked, showPopup } = this.state;
-    const { name } = this.props;
+    const { userDetails } = this.props
     return (
       <div className="background-image2">
         <div className="all-content">
@@ -158,9 +161,9 @@ handleDifficultyChange = (event) => {
             </div> */}
             <div className="center-content">
               <h1>Setup Page</h1>
-              <h5 className="welcome-small">{`Welcome ${name}`}</h5>
-              <h5 className="welcome-medium">{`Hi ${name}, choose what words you want to learn`}</h5>
-              <h5 className="welcome-large">{`Hi ${name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
+              <h5 className="welcome-small">{`Welcome ${userDetails.name}`}</h5>
+              <h5 className="welcome-medium">{`Hi ${userDetails.name}, choose what words you want to learn`}</h5>
+              <h5 className="welcome-large">{`Hi ${userDetails.name}, choose what words you want to learn, and this programme will make you a randomised list of words from our database that meet your requirements, then it's time to get learning!`}</h5>
               <div className="pb3 pt2">
                 <h5>How many words do you want to learn?</h5>
                   <select
@@ -219,29 +222,37 @@ handleDifficultyChange = (event) => {
                 {(readiness === 'not ready') && (<h5>You haven't inputted sufficient details to setup the game!</h5>)}
               </div>
               <div className="upload-list">
-              <h6>(If you want to upload your own words to learn, <b className="clickable-element2" onClick={this.handlePopupClickFilter}>click here</b>)</h6>
-              <div>
-                {showPopup && (
-                <div className="overlay">
-                  <div className="popup">
-                    <h2>How to upload you're own words</h2>
-                    <p>First you need to create an excel file with all your vocabulary</p>
-                    <p>The first column should have your English words with the first row name 'English', the second column should have your French words with the row name 'French'.</p>
-                    <p>It should look like this:</p>
-                    <img src={demoImage} alt="Demonstration"></img>
-                    <p>Then upload it to here:</p>
-                    <input 
-                      type="file" 
-                      accept=".xlsx, .xls" 
-                      onChange={this.handleFileUpload} />
-                    {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList.bind(this, data)}>Generate List and Begin!</button> */}
-                    <button className='grow pv1 white mv3 f4 br3 mh2 link dib' onClick={this.createCustomListUpload}>Generate List and Begin!</button>
-                    <button onClick={this.handleCloseClick}>Close</button>
+                <h6>(If you want to upload your own words to learn, <b className="clickable-element2" onClick={this.handlePopupClickFilter}>click here</b>)</h6>
+                <div>
+                  {showPopup && (
+                  <div className="overlay">
+                    <div className="popup">
+                      <h2>How to upload you're own words</h2>
+                      <p>First you need to create an excel file with all your vocabulary</p>
+                      <p>The first column should have your English words with the first row name 'English', the second column should have your French words with the row name 'French'.</p>
+                      <p>It should look like this:</p>
+                      <img src={demoImage} alt="Demonstration"></img>
+                      <p>Then upload it to here:</p>
+                      <input 
+                        type="file" 
+                        accept=".xlsx, .xls" 
+                        onChange={this.handleFileUpload} />
+                      {/* <button className='grow pv1 white mv3 f4 br3 mh2 link dib bg-blue ' onClick={this.createCustomList.bind(this, data)}>Generate List and Begin!</button> */}
+                      <button className='grow pv1 white mv3 f4 br3 mh2 link dib' onClick={this.createCustomListUpload}>Generate List and Begin!</button>
+                      <button onClick={this.handleCloseClick}>Close</button>
+                  </div>
+                  </div>
+                  )}
                 </div>
-                </div>
-                )}
               </div>
-            </div>
+              <div>---------</div>
+              <div className="progressMode-container">
+                  <h5>New Game Mode: Steady Progression</h5>
+                  <div>Make your way through our database of 1500 words at your own pace, you will be able to leave the site and your progress will be saved so you can return at a later date.</div>
+                  <button className='grow pv1 white mv3 f4 br3 mh2 link dib' onClick={() => this.props.onRouteChange('progressionMode')}>Enter Progress Mode</button>
+                  {/* <div>{`Number of entries: ${userDetails.entries}`}</div> */}
+                  <div>Your Progress so far: <b>{userDetails.progress} words</b></div>
+              </div>
             </div>
           </div>
         </div>
