@@ -61,9 +61,6 @@ class ProgressionMode extends Component {
 
 
 selectWord = (localProgress, vocab, attempts) => {
-    console.log('localProgress', localProgress)
-    console.log('vocab', vocab)
-    console.log('attempts', attempts)
 
     this.setState({ localProgress: localProgress }) // update local progress
 
@@ -73,15 +70,12 @@ selectWord = (localProgress, vocab, attempts) => {
         } else {
             this.setState({ variable_vocabulary: vocabulary });
         } 
-        console.log('empty') 
     } else {
     if (localProgress < vocabulary.length) {
-                console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
                 const selectedWord = this.state.variable_vocabulary[this.state.totalAttempts];
                 if (this.state.variable_vocabulary.length === 0) {
                 }
                 this.setState({ specialWarning: false });
-                console.log('selectedWord', selectedWord.English)
             this.setState({
                 currentWordEnglish: selectedWord.English,
                 currentWordFrench: selectedWord.French,
@@ -234,7 +228,6 @@ updateVocab = () => {
 .then(response => response.json())
 .then(count => {
 this.setState({ variable_vocabulary: count })
-// console.log('count', count)
 })
 }
 
