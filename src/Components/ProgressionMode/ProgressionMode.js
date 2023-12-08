@@ -168,7 +168,7 @@ this.updateVocab();
 
 }
 
-// this.Pronunciation();
+this.Pronunciation();
 
 // Update attempts state locally 
 this.setState((prevState) => ({
