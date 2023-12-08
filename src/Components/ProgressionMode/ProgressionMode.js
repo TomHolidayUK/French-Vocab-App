@@ -6,7 +6,7 @@ import ContactForm from '../ContactForm/ContactForm.js';
 import ChatBot from '../ChatBot/ChatBot.js';
 import vocabulary from '../FrenchVocabularyGame/Vocabulary.js';
 
-let initial_vocabulary = [...vocabulary];
+
 
 class ProgressionMode extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ class ProgressionMode extends Component {
       userInput: '',
       isCorrect: null,
       totalAttempts: 0,
-      totalAttemptsCopy: 0,
       incorrectAnswers: 0,
       percentage: 0,
       stage: 'no results', // show results or not
@@ -51,30 +50,40 @@ class ProgressionMode extends Component {
     this.setState({ showPopup2: false });
   };
 
-// This selects the current words from the database by changing the current state to them 
+
+// it takes time to load the variable_vocabulary from the database and can lead to errors, therefore initally this needs to be doe locally
+// then the database can verify or rectify problems
+// do the same for progress
+
+// update locally first (because quicker)
+// then send this updated state to database
+// only read database value when entering progression mode (component did mount)
+
+
+
 selectWord = (word_index, vocab, attempts) => {
-    this.setState({ localProgress: word_index })
+
+    this.setState({ localProgress: word_index }) // update local progress
 
     if (typeof vocab !== 'undefined') {
-    this.setState({ variable_vocabulary: vocab });
+    this.setState({ variable_vocabulary: vocab }); // update variable_vocab
     }
 
-    if (typeof attempts !== 'undefined') {
+    if (typeof attempts !== 'undefined') { // update attempts
     this.setState({ 
         totalAttempts: attempts,
-        totalAttemptsCopy: attempts,
     });
         }
 
+
     if (this.state.variable_vocabulary.length === 0) {
-        console.log('empty') 
         this.setState({ variable_vocabulary: vocab });
-        console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
     } else {
-    if (word_index < initial_vocabulary.length) {
-                console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
-                console.log('this.state.totalAttempts', this.state.totalAttempts)
+    if (word_index < vocabulary.length) {
+                // console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
                 const selectedWord = this.state.variable_vocabulary[this.state.totalAttempts];
+                if (this.state.variable_vocabulary.length === 0) {
+                }
                 this.setState({ specialWarning: false });
             this.setState({
                 currentWordEnglish: selectedWord.English,
@@ -140,26 +149,36 @@ if (difficultMode === true) {
 
 this.setState({ isCorrect });
 if (isCorrect === true ) {
-    this.setState((prevState) => ({
-        totalAttemptsCopy: prevState.totalAttemptsCopy + 1,
-    }));
 
-// Update progress state
-this.increaseProgress();
+// Update progress state locally 
+this.setState((prevState) => ({
+    localProgress: prevState.localProgress + 1,
+}), () => {
+    this.updateDBProgress(); // and update database progress
+});
     
 } else if (isCorrect === false) {
 
 // Now we want to ensure that words that are answered incorrectly are fed back to the user later    
-const delayFactor = 0.01; // This defins how much later in the list the user will receive the word they answered incorrectly 
-const indexToInsert = this.state.localProgress + Math.ceil(this.state.variable_vocabulary.length * delayFactor)
-this.state.variable_vocabulary.splice(indexToInsert, 0, this.state.variable_vocabulary[this.state.totalAttemptsCopy])
+const delayFactor = 0.025; // This defins how much later in the list the user will receive the word they answered incorrectly 
+const indexToInsert = this.state.totalAttempts + Math.ceil(vocabulary.length * delayFactor)
+const indexToInsert2 = this.state.totalAttempts + Math.ceil(vocabulary.length * delayFactor * 3)
+this.state.variable_vocabulary.splice(indexToInsert, 0, this.state.variable_vocabulary[this.state.totalAttempts])
+this.state.variable_vocabulary.splice(indexToInsert2, 0, this.state.variable_vocabulary[this.state.totalAttempts])
 
 // Update vocabulary list
 this.updateVocab();
 
 }
+
 this.Pronunciation();
-this.increaseAttempts();
+
+// Update attempts state locally 
+this.setState((prevState) => ({
+    totalAttempts: prevState.totalAttempts + 1,
+}), () => {
+    this.updateDBAttempts(); // and update database attempts
+});
 
 };
 
@@ -193,27 +212,16 @@ resetDB = () => {
         headers: {'Content-Type': 'application/json'},
     })
     .then(response => response.json())
-    .then(count => {
-    this.setState({ 
-        localProgress: count.progress,
-        totalAttempts: count.attempts,
-        correctAnswers: count.correct,
-        incorrectAnswers: count.incorrect,
-        variable_vocabulary: count.words,
-    })
-    })
+    // this.syncDB()
+    this.selectWord(0, vocabulary, 0);
 }
 
-increaseProgress = () => {
-    // fetch(`http://localhost:3000/mongoprogress/${this.props.user.id}`, {
-    fetch(`https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoprogress/${this.props.user.id}`, {
-    method: 'put',
+
+updateDBProgress = () => {
+    // fetch(`http://localhost:3000/mongoprogress?param1=${this.props.user.id}&param2=${this.state.localProgress}`, {
+    fetch(`https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoprogress?param1=${this.props.user.id}&param2=${this.state.localProgress}`, {
+    method: 'post',
     headers: {'Content-Type': 'application/json'},
-})
-.then(response => response.json())
-// Update local progress state
-.then(count => {
-this.setState({ localProgress: count })
 })
 }
 
@@ -233,21 +241,21 @@ console.log('count', count)
 })
 }
 
-increaseAttempts = () => {
-// Update number of total attempts
-    // fetch(`http://localhost:3000/mongoattempts/${this.props.user.id}`, {
-    fetch(`https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoattempts/${this.props.user.id}`, {
-        method: 'put',
-        headers: {'Content-Type': 'application/json'},
-    })
-    .then(response => response.json())
-    // Update local progress state
-    .then(count => {
-    this.setState({ 
-        totalAttempts: count,
-        totalAttemptsCopy: count })
-    })
-}
+
+updateDBAttempts = () => {
+    // Update number of total attempts
+        // fetch(`http://localhost:3000/mongoattempts?param1=${this.props.user.id}&param2=${this.state.totalAttempts}`, {
+        fetch(`https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoattempts?param1=${this.props.user.id}&param2=${this.state.totalAttempts}`, {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then(response => response.json())
+        // Update local progress state
+        .then(count => {
+        this.setState({ 
+            totalAttempts: count })
+        })
+    }
 
 // --------------- End of Fetch Requests to Server --------------- //
 
@@ -261,7 +269,7 @@ componentDidMount() {
     // Fetch data from DB and sync local state
     this.syncDB();
 
-    const initialLength = initial_vocabulary.length;
+    const initialLength = vocabulary.length;
     this.setState({ initialLength: initialLength })
 }
 
@@ -332,14 +340,15 @@ restart = () => {
        
         this.resetDB(); // Reset Progress
 
-        this.setState({ variable_vocabulary: initial_vocabulary });
+        this.setState({ variable_vocabulary: vocabulary });
         this.setState({ 
             currentWordEnglish: vocabulary[0].English,
             currentWordFrench: vocabulary[0].French,
             userInput: '',
             isCorrect: null,
-            totalAttemptsCopy: 0,
+            totalAttempts: 0,
         })
+   
     }
    
 }
@@ -374,7 +383,7 @@ hint = () => {
  
 
   render() {
-    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, difficultMode, hint, showPopup, showPopup2, initialLength, specialWarning, ShowContact, ShowGPT, localProgress, totalAttemptsCopy } = this.state;
+    const { currentWordEnglish, currentWordFrench, currentWordType, userInput, isCorrect, difficultMode, hint, showPopup, showPopup2, initialLength, specialWarning, ShowContact, ShowGPT, localProgress, totalAttempts } = this.state;
     return (
         <div className="background-image3" style={{ whiteSpace: 'pre' }}> 
             <div className='pa1 pt9 tc'>
@@ -387,8 +396,14 @@ hint = () => {
             <div className="middle-content">
                 <h2>French Vocabulary Game: Progression Mode</h2>
                 {/* {(totalAttempts > 0) && <ProgressBar completed={parseFloat((totalAttempts/(this.props.customList.length)*100).toFixed(2))} />} */}
-                {(this.state.localProgress > 0) && <ProgressBar completed={parseFloat((this.state.localProgress/(initialLength)*100).toFixed(2))} />}
-                <div>
+                {(this.state.localProgress > 0) && 
+                <ProgressBar 
+                    completed={parseFloat((this.state.localProgress/(initialLength)*100).toFixed(0))} 
+                 
+                   
+             
+                />}
+                <div className="prevent-overflow">
                     {(localProgress < 500) && <h5>You are on the <b>Beginner Level (A1)</b>, you have <b>{500 - localProgress}</b> words until Intermediate level</h5>}
                     {(1000 > localProgress > 499) && <h5>You are on the <b>Intermediate Level (A2)</b>, you have <b>{1000 - localProgress}</b> words until Advanced level</h5>}
                     {(1500 > localProgress > 999) && <h5>You are on the <b>Advanced Level 1 (B1)</b>, you have <b>{1500 - localProgress}</b> words until intermediate level</h5>}
@@ -476,9 +491,9 @@ hint = () => {
                     <div className='bordered-content'>
                         <h5><b>Your Stats:</b></h5>
                         <h6><b>Progress = {localProgress}</b></h6>
-                        {/* <h6><b>Total Answers = {totalAttemptsCopy}</b></h6> */}
-                        <h6><b>Incorrect Answers = {totalAttemptsCopy - localProgress}</b></h6>
-                        {(totalAttemptsCopy > 0) && <h6><b>Accuracy = {(localProgress/totalAttemptsCopy* 100).toFixed(2)}%</b></h6>}
+                        {/* <h6><b>Total Answers = {totalAttempts}</b></h6> */}
+                        <h6><b>Incorrect Answers = {totalAttempts - localProgress}</b></h6>
+                        {(totalAttempts > 0) && <h6><b>Accuracy = {(localProgress/totalAttempts* 100).toFixed(2)}%</b></h6>}
                         <h6><b>---</b></h6>
                         <h6><b>Data Joined = {this.calculateDate()}</b></h6>
                         {(this.calculateTime() > 1) && <h6><b>Time on Site = {this.calculateTime()} days</b></h6>}
@@ -500,8 +515,8 @@ hint = () => {
                 <div className='f4'>
                     <div className='bordered-content'>
                         <div>Total Correct answers = {localProgress}</div>
-                        <div>Total Incorrect Answers = {totalAttemptsCopy - localProgress}</div>
-                        {(totalAttemptsCopy > 0) && <div>Accuracy = {(localProgress/totalAttemptsCopy* 100).toFixed(2)}%</div>}
+                        <div>Total Incorrect Answers = {totalAttempts - localProgress}</div>
+                        {(totalAttempts > 0) && <div>Accuracy = {(localProgress/totalAttempts* 100).toFixed(2)}%</div>}
                         <div>Time to Complete = {this.calculateTime()} days</div>
                     </div>
                 </div>
@@ -515,12 +530,12 @@ hint = () => {
                 {/* <h2>Extra Features</h2> */}
                 <div className="GPT-navigation-container">
                      {!ShowGPT && ( 
-                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/ChatGPT-Logo.png" className="chatGPT-img clickable-element" alt="whatever" onClick={this.handleGPTToggle} />)
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/ChatGPT-Logo.png" className="chatGPT-img clickable-element grow" alt="whatever" onClick={this.handleGPTToggle} />)
                     }
                 </div>
                 <div className="Contact-navigation-container">
                      {!ShowContact && ( 
-                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/mail3.png" className="contact-img clickable-element" alt="whatever" onClick={this.handleContactToggle} />)
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/mail3.png" className="contact-img clickable-element grow" alt="whatever" onClick={this.handleContactToggle} />)
                     }
                 </div>
             </div>

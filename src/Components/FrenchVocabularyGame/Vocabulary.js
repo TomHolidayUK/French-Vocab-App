@@ -554,7 +554,7 @@ const vocabulary2 = [
       },
       {
         English: "the man",
-        French: "le homme",
+        French: "l'homme",
         index: 80,
         type: "noun",
         difficulty: "beginner"

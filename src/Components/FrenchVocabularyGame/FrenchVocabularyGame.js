@@ -56,7 +56,6 @@ selectWord = (totalAttempts) => {
     if (customList && customList.length > this.state.totalAttempts) {
         const selectedWord = customList[this.state.totalAttempts];
         // console.log('custom list in FrenchVocabularyGame.js 2', this.props.customList)
-        console.log('add this to db !!!')
         this.setState({ specialWarning: false });
     this.setState({
         currentWordEnglish: selectedWord.English,
@@ -390,12 +389,12 @@ hint = () => {
                 {/* <h2>Extra Features</h2> */}
                 <div className="GPT-navigation-container">
                      {!ShowGPT && ( 
-                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/ChatGPT-Logo.png" className="chatGPT-img clickable-element" alt="whatever" onClick={this.handleGPTToggle} />)
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/ChatGPT-Logo.png" className="chatGPT-img clickable-element grow" alt="whatever" onClick={this.handleGPTToggle} />)
                     }
                 </div>
                 <div className="Contact-navigation-container">
                      {!ShowContact && ( 
-                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/mail3.png" className="contact-img clickable-element" alt="whatever" onClick={this.handleContactToggle} />)
+                    <img src="https://tomholidaymyportfoliobucket.s3.eu-west-2.amazonaws.com/French+App+Data/Other/mail3.png" className="contact-img clickable-element grow" alt="whatever" onClick={this.handleContactToggle} />)
                     }
                 </div>
             </div>

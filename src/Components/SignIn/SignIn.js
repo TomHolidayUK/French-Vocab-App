@@ -39,7 +39,6 @@ class SignIn extends Component {
 
   
     onSubmitSignIn = () => {
-        // fetch('http://localhost:3000/signin', {
         // fetch('http://localhost:3000/mongosignin', {
         fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongosignin', {
             method: 'post',

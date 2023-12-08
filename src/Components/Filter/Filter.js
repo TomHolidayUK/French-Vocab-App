@@ -13,7 +13,8 @@ class Filter extends Component {
       selectedDifficulty: '',
       readiness: '',
       data: [],
-      showPopup: false
+      showPopup: false,
+      localProgress: 0
     };
   }
 
@@ -143,6 +144,27 @@ handleDifficultyChange = (event) => {
   this.setState({ selectedDifficulty: value });
 };
 
+// This renders a word to translate the moment that the app renders
+componentDidMount() {
+  // Fetch data from DB and sync local state
+  console.log('componentDidMount')
+  this.syncDB();
+
+}
+
+// Fetch data from DB and sync local state
+syncDB = () => {
+  // fetch(`http://localhost:3000/mongousers/${this.props.userDetails.id}`, {
+  fetch(`https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongousers/${this.props.userDetails.id}`, {
+      method: 'get',
+      headers: {'Content-Type': 'application/json'},
+  }) 
+  .then(response => response.json())
+  .then(count => {
+  this.setState({ localProgress: count.userProgress })
+  })
+  }
+
 
   render() {
     const { selectedTypes, readiness,  selectAllChecked, showPopup } = this.state;
@@ -247,11 +269,12 @@ handleDifficultyChange = (event) => {
               </div>
               <div>---------</div>
               <div className="progressMode-container">
-                  <h5>New Game Mode: Steady Progression</h5>
+                  <h5>New Game: Progression Mode</h5>
                   <div>Make your way through our database of 1500 words at your own pace, you will be able to leave the site and your progress will be saved so you can return at a later date.</div>
                   <button className='grow pv1 white mv3 f4 br3 mh2 link dib' onClick={() => this.props.onRouteChange('progressionMode')}>Enter Progress Mode</button>
                   {/* <div>{`Number of entries: ${userDetails.entries}`}</div> */}
-                  <div>Your Progress so far: <b>{userDetails.progress} words</b></div>
+                  {/* <div>Your Progress so far: <b>{userDetails.progress} words</b></div> */}
+                  <div>Your Progress so far: <b>{this.state.localProgress} words</b></div>
               </div>
             </div>
           </div>

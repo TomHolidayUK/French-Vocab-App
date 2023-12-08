@@ -32,9 +32,7 @@ class Register extends Component {
 
     onSubmitRegister = () => {
         this.setState({ClickStatus: true})
-        // fetch('http://localhost:3000/register', {
         // fetch('http://localhost:3000/mongoregister', {
-        //    fetch('https://nameless-savannah-12192-f4ca04c7a238.herokuapp.com/register', {
         fetch('https://learn-french-vocabulary-api-5d216bdc9555.herokuapp.com/mongoregister', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
