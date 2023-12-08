@@ -12,13 +12,13 @@ class ProgressionMode extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentWordEnglish: '',
+      currentWordEnglish: 'loading...', 
       currentWordFrench: '',
       currentWordType: '',
       userInput: '',
       isCorrect: null,
       totalAttempts: 0,
-      incorrectAnswers: 0,
+      incorrectAnswers: 0,  
       percentage: 0,
       stage: 'no results', // show results or not
       difficultMode: false,
@@ -60,31 +60,28 @@ class ProgressionMode extends Component {
 // only read database value when entering progression mode (component did mount)
 
 
+selectWord = (localProgress, vocab, attempts) => {
+    console.log('localProgress', localProgress)
+    console.log('vocab', vocab)
+    console.log('attempts', attempts)
 
-selectWord = (word_index, vocab, attempts) => {
-
-    this.setState({ localProgress: word_index }) // update local progress
-
-    if (typeof vocab !== 'undefined') {
-    this.setState({ variable_vocabulary: vocab }); // update variable_vocab
-    }
-
-    if (typeof attempts !== 'undefined') { // update attempts
-    this.setState({ 
-        totalAttempts: attempts,
-    });
-        }
-
+    this.setState({ localProgress: localProgress }) // update local progress
 
     if (this.state.variable_vocabulary.length === 0) {
-        this.setState({ variable_vocabulary: vocab });
+        if (vocab) {
+            this.setState({ variable_vocabulary: vocab });
+        } else {
+            this.setState({ variable_vocabulary: vocabulary });
+        } 
+        console.log('empty') 
     } else {
-    if (word_index < vocabulary.length) {
-                // console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
+    if (localProgress < vocabulary.length) {
+                console.log('this.state.variable_vocabulary', this.state.variable_vocabulary)
                 const selectedWord = this.state.variable_vocabulary[this.state.totalAttempts];
                 if (this.state.variable_vocabulary.length === 0) {
                 }
                 this.setState({ specialWarning: false });
+                console.log('selectedWord', selectedWord.English)
             this.setState({
                 currentWordEnglish: selectedWord.English,
                 currentWordFrench: selectedWord.French,
@@ -171,7 +168,7 @@ this.updateVocab();
 
 }
 
-this.Pronunciation();
+// this.Pronunciation();
 
 // Update attempts state locally 
 this.setState((prevState) => ({
@@ -237,7 +234,7 @@ updateVocab = () => {
 .then(response => response.json())
 .then(count => {
 this.setState({ variable_vocabulary: count })
-console.log('count', count)
+// console.log('count', count)
 })
 }
 
@@ -573,7 +570,8 @@ hint = () => {
             <p>é – the acute accent (l'accent aigu)<br />à/è/ì/ò/ù – the grave accent (l'accent grave)<br />â/ê/î/ô/û – the circumflex (l'accent circonflexe)<br />ç – the cedilla (la cédille)<br />ë/ï/ü – the trema (l'accent tréma)</p>
             <b>Functions to add:<br />Sort order - don't have 2 words in a row<br />Have levels<br />Display statistics<br />Make spelling allowances especially for incorrect accents and capital letters<br />Style well with nice background<br />Add pictures<br />Animation when new word appears</b> */}
         </div>
-    </div>
+        {(currentWordEnglish === 'loading...') && (this.syncDB())}    
+    </div> 
     );
   }
 }

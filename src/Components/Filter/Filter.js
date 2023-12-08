@@ -146,10 +146,7 @@ handleDifficultyChange = (event) => {
 
 // This renders a word to translate the moment that the app renders
 componentDidMount() {
-  // Fetch data from DB and sync local state
-  console.log('componentDidMount')
   this.syncDB();
-
 }
 
 // Fetch data from DB and sync local state
